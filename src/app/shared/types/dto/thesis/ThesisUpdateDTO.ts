@@ -1,7 +1,6 @@
 export interface ThesisUpdateDTO {
   id: number;
-  authorName: string;
-  authorSurname: string;
+  authorAlbumNumber: string;
   topic: string;
   reviewerId: number | null;
 }

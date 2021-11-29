@@ -1,6 +1,5 @@
 export interface ThesisAddDTO {
   topic: string;
-  authorName: string;
-  authorSurname: string;
+  authorAlbumNumber: string;
   reviewerId: number | null;
 }

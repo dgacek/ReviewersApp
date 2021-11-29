@@ -1,23 +1,27 @@
-const {app, BrowserWindow} = require('electron')
+const { app, BrowserWindow } = require('electron')
 const url = require("url");
 const path = require("path");
 const kill = require('tree-kill');
+const settings = require('electron-settings');
 
 let mainWindow
 
-function createWindow () {
+function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
+      enableRemoteModule: true,
       nodeIntegration: true
     }
   })
 
-  var jarPath = app.getAppPath() + '\\api.jar';
-  var child = require('child_process').spawn(
-    'java', ['-jar', jarPath, '']
-  );
+  if (settings.getSync('api.local') !== false) {
+    var jarPath = app.getAppPath() + '\\api.jar';
+    var child = require('child_process').spawn(
+      'java', ['-jar', jarPath, '']
+    );
+  }
 
   mainWindow.loadURL(
     url.format({

@@ -46,3 +46,6 @@ Thumbs.db
 
 # API jar
 api.jar
+
+# Database
+/data/
