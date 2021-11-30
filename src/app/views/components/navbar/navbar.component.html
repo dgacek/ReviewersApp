@@ -1,1 +1,8 @@
-<p>navbar works!</p>
+<mat-toolbar color="primary">
+  <mat-button-toggle-group>
+    <mat-button-toggle routerLink="/browse" routerLinkActive="active">Browse</mat-button-toggle>
+    <mat-button-toggle routerLink="/assign" routerLinkActive="active">Assign</mat-button-toggle>
+  </mat-button-toggle-group>
+  <div *ngIf="isAuthenticated(); else elseBlock"><button mat-button (click)="logout()">Logout</button></div>
+  <ng-template #elseBlock><button mat-button routerLink="/login" routerLinkActive="active">Login</button></ng-template>
+</mat-toolbar>

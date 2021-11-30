@@ -8,21 +8,42 @@ import { AssignPageComponent } from './views/pages/assign-page/assign-page.compo
 import { BrowsePageComponent } from './views/pages/browse-page/browse-page.component';
 import { NavbarComponent } from './views/components/navbar/navbar.component';
 import { MaterialModule } from './shared/modules/material/material.module';
+import { LoginPageComponent } from './views/pages/login-page/login-page.component';
+import { JwtModule } from '@auth0/angular-jwt';
+import { LoginDialogComponent } from './views/components/dialogs/login-dialog/login-dialog.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
     AssignPageComponent,
     BrowsePageComponent,
-    NavbarComponent
+    NavbarComponent,
+    LoginPageComponent,
+    LoginDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule
+    HttpClientModule,
+    MaterialModule,
+    FormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {return localStorage.getItem("token")}
+      }
+    })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
