@@ -14,7 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private auth: AuthService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (this.auth.getAuthToken() !== null) {
+    if (this.auth.getAuthToken() !== null && !request.url.includes("/login")) {
       request = request.clone({
         setHeaders: {
           "Authorization": `Bearer ${this.auth.getAuthToken()}`
