@@ -4,15 +4,15 @@ import { Observable } from 'rxjs';
 import { ReviewerAddDTO } from 'src/app/shared/types/dto/reviewer/ReviewerAddDTO';
 import { ReviewerGetDTO } from 'src/app/shared/types/dto/reviewer/ReviewerGetDTO';
 import { ReviewerUpdateDTO } from 'src/app/shared/types/dto/reviewer/ReviewerUpdateDTO';
-import { environment } from 'src/environments/environment';
+import { ApiurlService } from '../apiurl.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReviewerService {
-  private apiEndpointUrl = `${environment.apiUrl}/reviewers`;
+  private apiEndpointUrl = `${this.apiUrl.getApiUrl()}/reviewers`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private apiUrl: ApiurlService) { }
 
   public get(id?: number): Observable<ReviewerGetDTO[]> {
     let params: HttpParams = new HttpParams;

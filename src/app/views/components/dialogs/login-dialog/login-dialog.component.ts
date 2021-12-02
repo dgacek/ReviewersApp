@@ -34,7 +34,7 @@ export class LoginDialogComponent {
       this.loginService.login({username: this._username, password: this._password}).subscribe(
         (response: AuthResponseDTO) => {
           this.auth.setAuthToken(response.token);
-          this.router.navigate(["/browse"]);
+          this.router.navigate(["/assign"]);
         }
       )
     }

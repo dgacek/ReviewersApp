@@ -4,15 +4,15 @@ import { Observable } from 'rxjs';
 import { ThesisAddDTO } from 'src/app/shared/types/dto/thesis/ThesisAddDTO';
 import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
 import { ThesisUpdateDTO } from 'src/app/shared/types/dto/thesis/ThesisUpdateDTO';
-import { environment } from 'src/environments/environment';
+import { ApiurlService } from '../apiurl.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThesisService {
-  private apiEndpointUrl = `${environment.apiUrl}/theses`;
+  private apiEndpointUrl = `${this.apiUrl.getApiUrl()}/theses`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private apiUrl: ApiurlService) { }
 
   public get(id?: number): Observable<ThesisGetDTO[]> {
     let params: HttpParams = new HttpParams;

@@ -3,15 +3,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DictionaryAddDTO } from 'src/app/shared/types/dto/dictionary/DictionaryAddDTO';
 import { DictionaryGetUpdateDTO } from 'src/app/shared/types/dto/dictionary/DictionaryGetUpdateDTO';
-import { environment } from 'src/environments/environment';
+import { ApiurlService } from '../apiurl.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DictionaryService {
-  private apiEndpointUrl = `${environment.apiUrl}/dictionary`;
+  private apiEndpointUrl = `${this.apiUrl.getApiUrl()}/dictionary`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private apiUrl: ApiurlService) { }
 
   public get(type: string, id?: number): Observable<DictionaryGetUpdateDTO[]> {
     let params: HttpParams = new HttpParams;

@@ -3,15 +3,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FacultyAddDTO } from 'src/app/shared/types/dto/faculty/FacultyAddDTO';
 import { FacultyGetUpdateDTO } from 'src/app/shared/types/dto/faculty/FacultyGetUpdateDTO';
-import { environment } from 'src/environments/environment';
+import { ApiurlService } from '../apiurl.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FacultyService {
-  private apiEndpointUrl = `${environment.apiUrl}/faculties`;
+  private apiEndpointUrl = `${this.apiUrl.getApiUrl()}/faculties`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private apiUrl: ApiurlService) { }
 
   public get(id?: number): Observable<FacultyGetUpdateDTO[]> {
     let params: HttpParams = new HttpParams;
