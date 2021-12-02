@@ -14,6 +14,7 @@ import { LoginDialogComponent } from './views/components/dialogs/login-dialog/lo
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { SettingsPageComponent } from './views/pages/settings-page/settings-page.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     BrowsePageComponent,
     NavbarComponent,
     LoginPageComponent,
-    LoginDialogComponent
+    LoginDialogComponent,
+    SettingsPageComponent
   ],
   imports: [
     BrowserModule,

@@ -16,12 +16,10 @@ function createWindow() {
     }
   })
 
-  if (settings.getSync('api.local') !== false) {
-    var jarPath = app.getAppPath() + '\\api.jar';
-    var child = require('child_process').spawn(
-      'java', ['-jar', jarPath, '']
-    );
-  }
+  var jarPath = app.getAppPath() + '\\api.jar';
+  var child = require('child_process').spawn(
+    'java', ['-jar', jarPath, '']
+  );
 
   mainWindow.loadURL(
     url.format({
@@ -30,6 +28,7 @@ function createWindow() {
       slashes: true
     })
   );
+
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
 

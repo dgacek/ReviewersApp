@@ -1,8 +1,9 @@
 <mat-toolbar color="primary">
-  <mat-button-toggle-group *ngIf="isAuthenticated()" class="mode-switch">
+  <mat-button-toggle-group [class.hidden]="!isAuthenticated()" class="mode-switch">
     <mat-button-toggle routerLink="/browse" routerLinkActive="active" checked="true" class="mode-switch-button">Browse</mat-button-toggle>
     <mat-button-toggle routerLink="/assign" routerLinkActive="active" class="mode-switch-button">Assign</mat-button-toggle>
   </mat-button-toggle-group>
+  <button mat-icon-button routerLink="/settings" routerLinkActive="active"><mat-icon>settings</mat-icon></button>
   <div *ngIf="isAuthenticated(); else elseBlock"><button mat-button (click)="logout()">Logout</button></div>
   <ng-template #elseBlock><button mat-button routerLink="/login" routerLinkActive="active">Login</button></ng-template>
 </mat-toolbar>
