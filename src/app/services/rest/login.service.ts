@@ -9,11 +9,14 @@ import { ApiurlService } from '../apiurl.service';
   providedIn: 'root'
 })
 export class LoginService {
-  private apiEndpointUrl = `${this.apiUrl.getApiUrl()}/login`;
 
   constructor(private http: HttpClient, private apiUrl: ApiurlService) { }
 
+  private getApiEndpointUrl(): string {
+    return `${this.apiUrl.getApiUrl()}/login`;
+  }
+
   public login(data: AuthRequestDTO): Observable<AuthResponseDTO> {
-    return this.http.post<AuthResponseDTO>(this.apiEndpointUrl, data);
+    return this.http.post<AuthResponseDTO>(this.getApiEndpointUrl(), data);
   }
 }

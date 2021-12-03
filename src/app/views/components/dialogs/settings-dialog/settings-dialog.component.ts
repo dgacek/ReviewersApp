@@ -9,26 +9,8 @@ import { SettingsService } from 'src/app/services/settings.service';
   styleUrls: ['./settings-dialog.component.scss']
 })
 export class SettingsDialogComponent implements OnInit {
-  private _apiType: string = "";
-  private _apiUrl: string = "";
-
-  api = {local: true, url: ""};
-
-  public get apiType(): string {
-    return this._apiType;
-  }
-  public set apiType(value: string) {
-    this._apiType = value;
-    this.updateApi();
-  } 
-  
-  public get apiUrl(): string {
-    return this._apiUrl;
-  }
-  public set apiUrl(value: string) {
-    this._apiUrl = value;
-    this.updateApi();
-  }
+  apiType: string = "";
+  apiUrl: string = "";
 
   constructor(private settingsService: SettingsService,
     private apiurlService: ApiurlService,
@@ -37,11 +19,20 @@ export class SettingsDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiUrl = this.apiurlService.getApiUrl();
+    this.apiType = this.isApiLocal() ? "local" : "remote";
   }
 
-  private updateApi(): void {
-    this.api.local = (this.apiType === "local");
-    this.api.url = this.apiType === "local" ? "" : this.apiUrl;
+  public isApiLocal(): boolean {
+    return this.apiurlService.getApiUrl() === "http://localhost:8080";
+  }
+
+  public applySettings(): void {
+    this.apiType === "local" ? this.apiurlService.setLocalApi() : this.apiurlService.setApiUrl(this.apiUrl);
+    this.closeDialog();
+  }
+
+  public closeDialog(): void {
+    this.dialogRef.close();
   }
 
 }

@@ -2,7 +2,7 @@
   <div class="title">ReviewersApp</div>
   <div class="spacer"></div>
   <div class="action-buttons">
-    <button mat-icon-button routerLink="/settings" routerLinkActive="active">
+    <button mat-icon-button (click)="openSettingsDialog()">
       <mat-icon>settings</mat-icon>
     </button>
     <div *ngIf="isAuthenticated(); else elseBlock"><button mat-button (click)="logout()">Logout</button></div>

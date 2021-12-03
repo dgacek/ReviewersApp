@@ -11,6 +11,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatRadioModule } from '@angular/material/radio';
 
 const materialModules = [
   MatToolbarModule,
@@ -24,7 +25,8 @@ const materialModules = [
   MatInputModule,
   MatIconModule,
   MatButtonToggleModule,
-  MatTabsModule
+  MatTabsModule,
+  MatRadioModule
 ];
 
 @NgModule({

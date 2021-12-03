@@ -10,30 +10,33 @@ import { ApiurlService } from '../apiurl.service';
   providedIn: 'root'
 })
 export class ThesisService {
-  private apiEndpointUrl = `${this.apiUrl.getApiUrl()}/theses`;
-
+  
   constructor(private http: HttpClient, private apiUrl: ApiurlService) { }
+
+  private getApiEndpointUrl(): string {
+    return `${this.apiUrl.getApiUrl()}/theses`;
+  }
 
   public get(id?: number): Observable<ThesisGetDTO[]> {
     let params: HttpParams = new HttpParams;
     if (id != undefined)
       params.set("id", id);
 
-    return this.http.get<ThesisGetDTO[]>(this.apiEndpointUrl, {params: params});
+    return this.http.get<ThesisGetDTO[]>(this.getApiEndpointUrl(), {params: params});
   }
 
   public add(data: ThesisAddDTO): Observable<ThesisGetDTO> {
-    return this.http.post<ThesisGetDTO>(this.apiEndpointUrl, data);
+    return this.http.post<ThesisGetDTO>(this.getApiEndpointUrl(), data);
   }
 
   public update(data: ThesisUpdateDTO): Observable<ThesisGetDTO> {
-    return this.http.put<ThesisGetDTO>(this.apiEndpointUrl, data);
+    return this.http.put<ThesisGetDTO>(this.getApiEndpointUrl(), data);
   }
 
   public delete(id: number): Observable<void> {
     let params: HttpParams = new HttpParams;
     params.set("id", id);
     
-    return this.http.delete<void>(this.apiEndpointUrl, {params: params});
+    return this.http.delete<void>(this.getApiEndpointUrl(), {params: params});
   }
 }

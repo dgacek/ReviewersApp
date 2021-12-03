@@ -9,30 +9,33 @@ import { ApiurlService } from '../apiurl.service';
   providedIn: 'root'
 })
 export class FacultyService {
-  private apiEndpointUrl = `${this.apiUrl.getApiUrl()}/faculties`;
 
   constructor(private http: HttpClient, private apiUrl: ApiurlService) { }
+
+  private getApiEndpointUrl(): string {
+    return `${this.apiUrl.getApiUrl()}/faculties`;
+  }
 
   public get(id?: number): Observable<FacultyGetUpdateDTO[]> {
     let params: HttpParams = new HttpParams;
     if (id != undefined)
       params.set("id", id);
 
-    return this.http.get<FacultyGetUpdateDTO[]>(this.apiEndpointUrl, {params: params});
+    return this.http.get<FacultyGetUpdateDTO[]>(this.getApiEndpointUrl(), {params: params});
   }
 
   public add(data: FacultyAddDTO): Observable<FacultyGetUpdateDTO> {
-    return this.http.post<FacultyGetUpdateDTO>(this.apiEndpointUrl, data);
+    return this.http.post<FacultyGetUpdateDTO>(this.getApiEndpointUrl(), data);
   }
 
   public update(data: FacultyGetUpdateDTO): Observable<FacultyGetUpdateDTO> {
-    return this.http.put<FacultyGetUpdateDTO>(this.apiEndpointUrl, data);
+    return this.http.put<FacultyGetUpdateDTO>(this.getApiEndpointUrl(), data);
   }
 
   public delete(id: number): Observable<void> {
     let params: HttpParams = new HttpParams;
     params.set("id", id);
     
-    return this.http.delete<void>(this.apiEndpointUrl, {params: params});
+    return this.http.delete<void>(this.getApiEndpointUrl(), {params: params});
   }
 }
