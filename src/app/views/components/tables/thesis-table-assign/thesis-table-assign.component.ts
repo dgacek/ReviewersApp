@@ -8,11 +8,11 @@ import { setSelectedThesisId } from 'src/app/shared/redux/selected-thesis-id/sel
 import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
 
 @Component({
-  selector: 'app-thesis-table',
-  templateUrl: './thesis-table.component.html',
-  styleUrls: ['./thesis-table.component.scss']
+  selector: 'app-thesis-table-assign',
+  templateUrl: './thesis-table-assign.component.html',
+  styleUrls: ['./thesis-table-assign.component.scss']
 })
-export class ThesisTableComponent implements OnInit {
+export class ThesisTableAssignComponent implements OnInit {
   readonly displayedColumns: string[] = ["id", "authorAlbumNumber", "topic"];
   selectedId$: Observable<number>;
 

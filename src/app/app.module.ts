@@ -19,9 +19,9 @@ import { SettingsDialogComponent } from './views/components/dialogs/settings-dia
 import { StoreModule } from '@ngrx/store';
 import { selectedThesisIdReducer } from './shared/redux/selected-thesis-id/selected-thesis-id.reducer';
 import { selectedReviewerIdReducer } from './shared/redux/selected-reviewer-id/selected-reviewer-id.reducer';
-import { ThesisTableComponent } from './views/components/thesis-table/thesis-table.component';
+import { ThesisTableAssignComponent } from './views/components/tables/thesis-table-assign/thesis-table-assign.component';
 import { ThesisDetailsComponent } from './views/components/thesis-details/thesis-details.component';
-import { ReviewerTableComponent } from './views/components/reviewer-table/reviewer-table.component';
+import { ReviewerTableAssignComponent } from './views/components/tables/reviewer-table-assign/reviewer-table-assign.component';
 
 @NgModule({
   declarations: [
@@ -33,9 +33,9 @@ import { ReviewerTableComponent } from './views/components/reviewer-table/review
     LoginDialogComponent,
     NavbarComponent,
     SettingsDialogComponent,
-    ThesisTableComponent,
+    ThesisTableAssignComponent,
     ThesisDetailsComponent,
-    ReviewerTableComponent
+    ReviewerTableAssignComponent
   ],
   imports: [
     BrowserModule,
