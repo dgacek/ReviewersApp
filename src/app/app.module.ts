@@ -16,6 +16,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { NavbarComponent } from './views/components/navbar/navbar.component';
 import { SettingsDialogComponent } from './views/components/dialogs/settings-dialog/settings-dialog.component';
+import { StoreModule } from '@ngrx/store';
+import { selectedThesisIdReducer } from './shared/redux/selected-thesis-id/selected-thesis-id.reducer';
+import { selectedReviewerIdReducer } from './shared/redux/selected-reviewer-id/selected-reviewer-id.reducer';
+import { ThesisTableComponent } from './views/components/thesis-table/thesis-table.component';
+import { ThesisDetailsComponent } from './views/components/thesis-details/thesis-details.component';
+import { ReviewerTableComponent } from './views/components/reviewer-table/reviewer-table.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +32,10 @@ import { SettingsDialogComponent } from './views/components/dialogs/settings-dia
     LoginPageComponent,
     LoginDialogComponent,
     NavbarComponent,
-    SettingsDialogComponent
+    SettingsDialogComponent,
+    ThesisTableComponent,
+    ThesisDetailsComponent,
+    ReviewerTableComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +48,8 @@ import { SettingsDialogComponent } from './views/components/dialogs/settings-dia
       config: {
         tokenGetter: () => {return localStorage.getItem("token")}
       }
-    })
+    }),
+    StoreModule.forRoot({ selectedThesisId: selectedThesisIdReducer, selectedReviewerId: selectedReviewerIdReducer })
   ],
   providers: [
     {

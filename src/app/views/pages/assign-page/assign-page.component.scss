@@ -1,0 +1,33 @@
+.root {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.left-panel {
+  display: flex;
+  flex: 6;
+  height: 100%;
+  flex-direction: column;
+}
+
+.thesis-details {
+  flex: 3;
+}
+
+.thesis-table {
+  flex: 7;
+}
+
+.assign-button {
+  height: 100%;
+  flex: 2;
+}
+
+.right-panel {
+  display: flex;
+  flex: 6;
+  height: 100%;
+  flex-direction: column;
+}
+

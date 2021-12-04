@@ -2,7 +2,6 @@ const { app, BrowserWindow } = require('electron')
 const url = require("url");
 const path = require("path");
 const kill = require('tree-kill');
-const settings = require('electron-settings');
 
 let mainWindow
 
