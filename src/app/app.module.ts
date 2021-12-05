@@ -22,6 +22,8 @@ import { selectedReviewerIdReducer } from './shared/redux/selected-reviewer-id/s
 import { ThesisTableAssignComponent } from './views/components/tables/thesis-table-assign/thesis-table-assign.component';
 import { ThesisDetailsComponent } from './views/components/thesis-details/thesis-details.component';
 import { ReviewerTableAssignComponent } from './views/components/tables/reviewer-table-assign/reviewer-table-assign.component';
+import { ThesisTableBrowseComponent } from './views/components/tables/thesis-table-browse/thesis-table-browse.component';
+import { ReviewerTableBrowseComponent } from './views/components/tables/reviewer-table-browse/reviewer-table-browse.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { ReviewerTableAssignComponent } from './views/components/tables/reviewer
     SettingsDialogComponent,
     ThesisTableAssignComponent,
     ThesisDetailsComponent,
-    ReviewerTableAssignComponent
+    ReviewerTableAssignComponent,
+    ThesisTableBrowseComponent,
+    ReviewerTableBrowseComponent
   ],
   imports: [
     BrowserModule,

@@ -16,8 +16,13 @@
       <td mat-cell *matCellDef="let element">{{element.topic}}</td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let thesis; columns: displayedColumns;"
-      (click)="setSelectedItem(thesis.id)"
-      [class.row-selected]="thesis.id === (selectedId$ | async)"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [colSpan]="displayedColumns.length">
+        <div class="no-items">No items</div>
+      </td>
+    </tr>
+    <tr mat-row *matRowDef="let item; columns: displayedColumns;"
+      (click)="setSelectedItem(item)"
+      [class.row-selected]="item.id === (selectedId$ | async)"></tr>
   </table>
 </div>

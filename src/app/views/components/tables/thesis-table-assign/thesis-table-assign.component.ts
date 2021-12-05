@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from 'src/app/app.state';
 import { ThesisService } from 'src/app/services/rest/thesis.service';
+import { setSelectedReviewerId } from 'src/app/shared/redux/selected-reviewer-id/selected-reviewer-id.actions';
 import { setSelectedThesisId } from 'src/app/shared/redux/selected-thesis-id/selected-thesis-id.actions';
 import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
 
@@ -26,8 +27,9 @@ export class ThesisTableAssignComponent implements OnInit {
     this.updateList();
   }
 
-  setSelectedItem(id: number) {
-    this.store.dispatch(setSelectedThesisId({id: id}));
+  setSelectedItem(item: ThesisGetDTO) {
+    this.store.dispatch(setSelectedThesisId({id: item.id}));
+    this.store.dispatch(setSelectedReviewerId({ id: item.reviewer ? item.reviewer.id : 0}));
   }
 
   updateList(): void {

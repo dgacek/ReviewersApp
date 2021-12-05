@@ -21,5 +21,10 @@ table {
 }
 
 .row-selected {
-  background-color: mat-color(mat-palette($mat-gray, 300))
+  background-color: mat-color(mat-palette($mat-gray, 300));
+}
+
+.no-items {
+  text-align: center;
+  color: mat-color(mat-palette($mat-gray, 400));
 }
