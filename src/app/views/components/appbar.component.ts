@@ -51,6 +51,6 @@ export class AppbarComponent {
   }
 
   public openSettingsDialog(): void {
-    let dialogRef = this.dialog.open(SettingsDialogComponent);
+    this.dialog.open(SettingsDialogComponent);
   }
 }

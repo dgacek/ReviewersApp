@@ -16,6 +16,9 @@ import { Component, OnInit } from '@angular/core';
       <button mat-icon-button>
         <mat-icon>delete</mat-icon>
       </button>
+      <button mat-icon-button>
+        <mat-icon>upload_file</mat-icon>
+      </button>
     </div>
   `
 })

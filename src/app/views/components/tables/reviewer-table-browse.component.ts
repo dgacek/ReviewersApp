@@ -119,7 +119,6 @@ export class ReviewerTableBrowseComponent implements OnInit {
     this.reviewerService.get().subscribe(
       {
         next: (response: ReviewerGetDTO[]) => {
-          console.log(response);
           this.dataSource = new MatTableDataSource(response);
           this.dataSource.sortingDataAccessor = (item, property) => {
             switch (property) {
