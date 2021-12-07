@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-thesis-details',
-  templateUrl: './thesis-details.component.html',
-  styleUrls: ['./thesis-details.component.scss']
+  styles: [`
+
+  `],
+  template: `
+    <p>thesis-details works!</p>
+  `
 })
 export class ThesisDetailsComponent implements OnInit {
 

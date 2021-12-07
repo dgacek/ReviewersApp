@@ -6,8 +6,35 @@ import { AuthResponseDTO } from 'src/app/shared/types/dto/auth/AuthResponseDTO';
 
 @Component({
   selector: 'app-login-dialog',
-  templateUrl: './login-dialog.component.html',
-  styleUrls: ['./login-dialog.component.scss']
+  styles: [`
+    .center {
+      width: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 205px;
+    }
+  `],
+  template: `
+    <div class="center">
+      <h1 mat-dialog-title>Login</h1>
+      <div mat-dialog-content>
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input matInput [(ngModel)]="username">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput type="password" [(ngModel)]="password">
+        </mat-form-field>
+      </div>
+      <div mat-dialog-actions>
+        <button mat-raised-button color="accent" (click)="processForm()">Login</button>
+      </div>
+    </div>
+  `
 })
 export class LoginDialogComponent {
   

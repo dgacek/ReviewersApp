@@ -5,8 +5,43 @@ import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
   selector: 'app-settings-dialog',
-  templateUrl: './settings-dialog.component.html',
-  styleUrls: ['./settings-dialog.component.scss']
+  styles: [`
+    .dialog-header {
+      display: flex;
+    }
+
+    .radio-group-vertical {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .action-buttons-right {
+      float: right;
+    }
+  `],
+  template: `
+    <div class="dialog-header">
+      <h1 mat-dialog-title>Settings</h1>
+      <div class="spacer"></div>
+      <button mat-icon-button (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content>
+      <mat-label>API address</mat-label>
+      <mat-radio-group [(ngModel)]="apiType" class="radio-group-vertical">
+        <mat-radio-button value="local">Local api (http://localhost:8080)</mat-radio-button>
+        <mat-radio-button value="remote">
+          <mat-form-field>
+            <input matInput placeholder="URL" [(ngModel)]="apiUrl" />
+          </mat-form-field>
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div mat-dialog-actions class="action-buttons-right">
+      <button mat-button (click)="applySettings()">Apply</button>
+    </div>
+  `
 })
 export class SettingsDialogComponent implements OnInit {
   apiType: string = "";

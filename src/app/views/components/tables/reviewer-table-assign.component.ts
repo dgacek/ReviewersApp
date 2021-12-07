@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-reviewer-table-assign',
-  templateUrl: './reviewer-table-assign.component.html',
-  styleUrls: ['./reviewer-table-assign.component.scss']
+  styles: [`
+
+  `],
+  template: `
+    <p>reviewer-table works!</p>
+  `
 })
 export class ReviewerTableAssignComponent implements OnInit {
 
