@@ -73,4 +73,8 @@ export class ReviewerFormDialogComponent implements OnInit {
     
   }
 
+  openDictionaryFormDialog(valueType: string) {
+    
+  }
+
 }

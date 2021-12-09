@@ -49,8 +49,7 @@ export class SettingsDialogComponent implements OnInit {
 
   constructor(private settingsService: SettingsService,
     private apiurlService: ApiurlService,
-    private dialogRef: MatDialogRef<SettingsDialogComponent>,
-    private dialog: MatDialog) { }
+    private dialogRef: MatDialogRef<SettingsDialogComponent>) { }
 
   ngOnInit(): void {
     this.apiUrl = this.apiurlService.getApiUrl();

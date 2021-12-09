@@ -27,6 +27,7 @@ import { ReviewerTableBrowseComponent } from './views/components/tables/reviewer
 import { ThesesToolbarComponent } from './views/components/theses-toolbar.component';
 import { ReviewersToolbarComponent } from './views/components/reviewers-toolbar.component';
 import { ReviewerFormDialogComponent } from './views/components/dialogs/reviewer-form-dialog.component';
+import { DictionaryFormDialogComponent } from './views/components/dialogs/dictionary-form-dialog.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ReviewerFormDialogComponent } from './views/components/dialogs/reviewer
     ReviewerTableBrowseComponent,
     ThesesToolbarComponent,
     ReviewersToolbarComponent,
-    ReviewerFormDialogComponent
+    ReviewerFormDialogComponent,
+    DictionaryFormDialogComponent
   ],
   imports: [
     BrowserModule,
