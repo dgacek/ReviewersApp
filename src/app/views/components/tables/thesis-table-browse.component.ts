@@ -62,7 +62,7 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
         </ng-container>
         <ng-container matColumnDef="reviewer">
           <th mat-header-cell *matHeaderCellDef mat-sort-header id="reviewerColumn">Reviewer</th>
-          <td mat-cell *matCellDef="let element">{{element.reviewer ? element.reviewer.title+" "+element.reviewer.name+" "+element.reviewer.surname : ""}}</td>
+          <td mat-cell *matCellDef="let element">{{element.reviewer ? element.reviewer.title.name+" "+element.reviewer.name+" "+element.reviewer.surname : ""}}</td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr class="mat-row" *matNoDataRow>

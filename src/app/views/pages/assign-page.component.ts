@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { AppState } from 'src/app/app.state';
+import { ThesisService } from 'src/app/services/rest/thesis.service';
+import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
 
 @Component({
   selector: 'app-assign-page',
@@ -16,17 +22,12 @@ import { Component, OnInit } from '@angular/core';
       flex-direction: column;
     }
 
-    .thesis-details {
-      flex: 3;
-    }
-
-    .thesis-table {
-      flex: 7;
-    }
-
     .assign-button {
       height: 100%;
       flex: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .right-panel {
@@ -39,27 +40,45 @@ import { Component, OnInit } from '@angular/core';
   template: `
     <div class="root">
       <div class="left-panel">
-        <div class="thesis-details">
-
-        </div>
-        <div class="thesis-table">
-          <app-thesis-table-assign></app-thesis-table-assign>
-        </div>
+        <app-thesis-table-assign (selectedItemChanged)="handleSelectedThesisChange($event)" [updatedThesis]="updatedThesis"></app-thesis-table-assign>
       </div>
       <div class="assign-button">
-
+        <button mat-fab [disabled]="selectedThesis === undefined || selectedThesis.reviewer !== null || (selectedReviewerId$ | async) === 0" (click)="assignReviewer()">
+          <mat-icon>done</mat-icon>
+        </button>
       </div>
       <div class="right-panel">
-        
+        <app-reviewer-table-assign></app-reviewer-table-assign>
       </div>
     </div>
   `
 })
-export class AssignPageComponent implements OnInit {
+export class AssignPageComponent {
+  selectedThesis?: ThesisGetDTO;
+  selectedReviewerId$: Observable<number>;
+  updatedThesis?: ThesisGetDTO;
 
-  constructor() { }
+  constructor(private thesisService: ThesisService,
+    private store: Store<AppState>) {
+      this.selectedReviewerId$ = store.select('selectedReviewerId');
+    }
 
-  ngOnInit(): void {
+  handleSelectedThesisChange(item: ThesisGetDTO) {
+    this.selectedThesis = item;
+  }
+
+  assignReviewer() {
+    this.selectedReviewerId$.pipe(take(1)).subscribe(
+      (selectedReviewerId) => {
+        this.thesisService.update({ reviewerId: selectedReviewerId, ...this.selectedThesis! }).subscribe(
+          {
+            next: (response) => {
+              this.updatedThesis = response;
+            }
+          }
+        )
+      }
+    )
   }
 
 }

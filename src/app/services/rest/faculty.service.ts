@@ -18,8 +18,8 @@ export class FacultyService {
 
   public get(id?: number): Observable<FacultyGetUpdateDTO[]> {
     let params: HttpParams = new HttpParams;
-    if (id != undefined)
-      params.set("id", id);
+    if (id)
+      params = new HttpParams().set("id", id);
 
     return this.http.get<FacultyGetUpdateDTO[]>(this.getApiEndpointUrl(), {params: params});
   }
@@ -34,7 +34,8 @@ export class FacultyService {
 
   public delete(id: number): Observable<void> {
     let params: HttpParams = new HttpParams;
-    params.set("id", id);
+    if (id)
+      params = new HttpParams().set("id", id);
     
     return this.http.delete<void>(this.getApiEndpointUrl(), {params: params});
   }

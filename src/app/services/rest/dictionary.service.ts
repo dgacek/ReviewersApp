@@ -17,32 +17,33 @@ export class DictionaryService {
   }
 
   public get(type: string, id?: number): Observable<DictionaryGetUpdateDTO[]> {
-    let params: HttpParams = new HttpParams;
-    params.set("type", type);
-    if (id != undefined)
-      params.set("id", id);
+    let params;
+    if (id)
+      params = new HttpParams().set("id", id).set("type", type);
+    else 
+      params = new HttpParams().set("type", type);
 
     return this.http.get<DictionaryGetUpdateDTO[]>(this.getApiEndpointUrl(), {params: params});
   }
 
   public add(type: string, data: DictionaryAddDTO): Observable<DictionaryGetUpdateDTO> {
-    let params: HttpParams = new HttpParams;
-    params.set("type", type);
+    let params: HttpParams = new HttpParams().set("type", type);
 
     return this.http.post<DictionaryGetUpdateDTO>(this.getApiEndpointUrl(), data, {params: params});
   }
 
   public update(type: string, data: DictionaryGetUpdateDTO): Observable<DictionaryGetUpdateDTO> {
-    let params: HttpParams = new HttpParams;
-    params.set("type", type);
+    let params: HttpParams = new HttpParams().set("type", type);
 
     return this.http.put<DictionaryGetUpdateDTO>(this.getApiEndpointUrl(), data, {params: params});
   }
 
   public delete(type: string, id: number): Observable<void> {
-    let params: HttpParams = new HttpParams;
-    params.set("type", type);
-    params.set("id", id);
+    let params;
+    if (id)
+      params = new HttpParams().set("id", id).set("type", type);
+    else 
+      params = new HttpParams().set("type", type);
 
     return this.http.delete<void>(this.getApiEndpointUrl(), {params: params});
   }

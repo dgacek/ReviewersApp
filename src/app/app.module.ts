@@ -20,7 +20,6 @@ import { StoreModule } from '@ngrx/store';
 import { selectedThesisIdReducer } from './shared/redux/selected-thesis-id/selected-thesis-id.reducer';
 import { selectedReviewerIdReducer } from './shared/redux/selected-reviewer-id/selected-reviewer-id.reducer';
 import { ThesisTableAssignComponent } from './views/components/tables/thesis-table-assign.component';
-import { ThesisDetailsComponent } from './views/components/thesis-details.component';
 import { ReviewerTableAssignComponent } from './views/components/tables/reviewer-table-assign.component';
 import { ThesisTableBrowseComponent } from './views/components/tables/thesis-table-browse.component';
 import { ReviewerTableBrowseComponent } from './views/components/tables/reviewer-table-browse.component';
@@ -40,7 +39,6 @@ import { DictionaryFormDialogComponent } from './views/components/dialogs/dictio
     NavbarComponent,
     SettingsDialogComponent,
     ThesisTableAssignComponent,
-    ThesisDetailsComponent,
     ReviewerTableAssignComponent,
     ThesisTableBrowseComponent,
     ReviewerTableBrowseComponent,

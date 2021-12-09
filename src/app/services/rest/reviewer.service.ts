@@ -19,8 +19,8 @@ export class ReviewerService {
 
   public get(id?: number): Observable<ReviewerGetDTO[]> {
     let params: HttpParams = new HttpParams;
-    if (id != undefined)
-      params.set("id", id);
+    if (id)
+      params = new HttpParams().set("id", id);
 
     return this.http.get<ReviewerGetDTO[]>(this.getApiEndpointUrl(), {params: params});
   }
@@ -35,7 +35,8 @@ export class ReviewerService {
 
   public delete(id: number): Observable<void> {
     let params: HttpParams = new HttpParams;
-    params.set("id", id);
+    if (id)
+      params = new HttpParams().set("id", id);
     
     return this.http.delete<void>(this.getApiEndpointUrl(), {params: params});
   }
