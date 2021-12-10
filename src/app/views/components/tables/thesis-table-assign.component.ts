@@ -74,10 +74,10 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
       </div>
       <div class="details">
           <h3>Topic:</h3>
-          <p>{{selectedItem?.topic}}</p>
+          <p>{{selectedItem ? selectedItem.topic : " "}}</p>
           <br>
           <h4>Author album number:</h4>
-          <p>{{selectedItem?.authorAlbumNumber}}</p>
+          <p>{{selectedItem ? selectedItem.authorAlbumNumber : " "}}</p>
       </div>
       <div class="button-nav">
         <button mat-mini-fab color="primary" [disabled]="(selectedIndex === undefined) || (selectedIndex! + 1 >= dataSource.data.length)" (click)="setSelectedItem(selectedIndex! + 1)">

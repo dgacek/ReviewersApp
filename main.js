@@ -15,7 +15,7 @@ function createWindow() {
     }
   })
 
-  var jarPath = app.getAppPath() + '\\api.jar';
+  var jarPath = app.getAppPath() + '/api.jar';
   var child = require('child_process').spawn(
     'java', ['-jar', jarPath, '']
   );
