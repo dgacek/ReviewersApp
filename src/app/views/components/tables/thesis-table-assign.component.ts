@@ -12,6 +12,11 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
 @Component({
   selector: 'app-thesis-table-assign',
   styles: [`
+    .table-container {
+      max-height: calc(100vh - 64px - 49px - 360px);
+      overflow: auto;
+    }
+
     table {
       width: 100%;
     }
@@ -22,14 +27,14 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
       cursor: pointer;
     }
 
-    .mat-row:hover .mat-cell {
-      border-color: currentColor;
+    .mat-header-row {
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    .loading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .mat-row:hover .mat-cell {
+      border-color: currentColor;
     }
 
     .row-selected {
@@ -45,14 +50,10 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
       padding: 30px;
       display: flex;
       flex-direction: column;
-      flex: 3;
+      height: 300px;
     }
 
     .table-root {
-      flex: 7;
-    }
-
-    .details {
       flex: 1;
     }
 
@@ -72,12 +73,12 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
           <mat-icon>arrow_upward</mat-icon>
         </button>
       </div>
-      <div class="details">
+      <div>
           <h3>Topic:</h3>
-          <p>{{selectedItem ? selectedItem.topic : " "}}</p>
+          <p>{{selectedItem ? selectedItem.topic : "\n"}}</p>
           <br>
           <h4>Author album number:</h4>
-          <p>{{selectedItem ? selectedItem.authorAlbumNumber : " "}}</p>
+          <p>{{selectedItem ? selectedItem.authorAlbumNumber : "\n"}}</p>
       </div>
       <div class="button-nav">
         <button mat-mini-fab color="primary" [disabled]="(selectedIndex === undefined) || (selectedIndex! + 1 >= dataSource.data.length)" (click)="setSelectedItem(selectedIndex! + 1)">
@@ -86,10 +87,7 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
       </div>
     </div>
     <div class="table-root">
-      <div *ngIf="!dataSource" class="loading">
-        <mat-spinner></mat-spinner>
-      </div>
-      <div *ngIf="dataSource">
+      <div class="table-container">
         <table mat-table [dataSource]="dataSource" aria-describedby="Theses table">
           <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef id="idColumn">ID</th>
@@ -103,6 +101,10 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
             <th mat-header-cell *matHeaderCellDef id="topicColumn">Topic</th>
             <td mat-cell *matCellDef="let element">{{element.topic}}</td>
           </ng-container>
+          <ng-container matColumnDef="reviewer">
+            <th mat-header-cell *matHeaderCellDef id="reviewerColumn">Reviewer</th>
+            <td mat-cell *matCellDef="let element">{{element.reviewer?.title.name}} {{element.reviewer?.name}} {{element.reviewer?.surname}}</td>
+          </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" [colSpan]="displayedColumns.length">
@@ -111,14 +113,15 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
           </tr>
           <tr mat-row *matRowDef="let item; let i = index; columns: displayedColumns;"
             (click)="setSelectedItem(i)"
-            [class.row-selected]="item.id === (selectedId$ | async)"></tr>
+            [class.row-selected]="item.id === (selectedId$ | async)"
+            [id]="'thesis'+item.id"></tr>
         </table>
       </div>
     </div>
   `
 })
 export class ThesisTableAssignComponent implements OnInit {
-  readonly displayedColumns: string[] = ["id", "authorAlbumNumber", "topic"];
+  readonly displayedColumns: string[] = ["id", "authorAlbumNumber", "topic", "reviewer"];
   selectedId$: Observable<number>;
   selectedItem?: ThesisGetDTO;
   selectedIndex?: number;
@@ -133,6 +136,10 @@ export class ThesisTableAssignComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.updateList();
+  }
+
+  updateList(): void {
     this.thesisService.get().subscribe(
       {
         next: (response: ThesisGetDTO[]) => {
@@ -153,8 +160,10 @@ export class ThesisTableAssignComponent implements OnInit {
     let thesisChange: SimpleChange = changes['updatedThesis'];
     if (thesisChange.currentValue !== undefined) {
       let index = this.dataSource.data.findIndex((item) => item.id === thesisChange.currentValue.id);
-      if (index !== -1 && index + 1 < this.dataSource.data.length)
+      if (index !== -1 && index + 1 < this.dataSource.data.length) {
         this.setSelectedItem(index + 1);
+        this.updateList();
+      }
     }
   }
 
@@ -164,6 +173,9 @@ export class ThesisTableAssignComponent implements OnInit {
     this.selectedItemChanged.emit(this.selectedItem);
     this.store.dispatch(setSelectedThesisId({ id: this.selectedItem.id }));
     this.store.dispatch(setSelectedReviewerId({ id: this.selectedItem.reviewer ? this.selectedItem.reviewer.id : 0 }));
+    let elmnt = document.getElementById("thesis"+this.selectedItem.id);
+    if (elmnt)
+      elmnt.scrollIntoView({block: 'center'});
   }
 
 }

@@ -12,6 +12,11 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-reviewer-table-browse',
   styles: [`
+    .table-container {
+      max-height: 84vh;
+      overflow: auto;
+    }
+
     table {
       width: 100%;
     }
@@ -20,6 +25,12 @@ import { take } from 'rxjs/operators';
       border-bottom: 1px solid transparent;
       border-top: 1px solid transparent;
       cursor: pointer;
+    }
+
+    .mat-header-row {
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     .mat-row:hover .mat-cell {
@@ -34,18 +45,9 @@ import { take } from 'rxjs/operators';
       text-align: center;
       color: #bdbdbd;
     }
-
-    .loading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
   `],
   template: `
-    <div *ngIf="!dataSource" class="loading">
-      <mat-spinner></mat-spinner>
-    </div>
-    <div *ngIf="dataSource">
+    <div class="table-container">
       <table mat-table [dataSource]="dataSource" matSort aria-describedby="Reviewers table">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header id="idColumn">ID</th>

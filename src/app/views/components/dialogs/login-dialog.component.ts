@@ -13,7 +13,7 @@ import { AuthResponseDTO } from 'src/app/shared/types/dto/auth/AuthResponseDTO';
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      height: 205px;
+      height: 220px;
     }
   `],
   template: `

@@ -13,6 +13,12 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
 @Component({
   selector: 'app-thesis-table-browse',
   styles: [`
+
+    .table-container {
+      max-height: 84vh;
+      overflow: auto;
+    }
+
     table {
       width: 100%;
     }
@@ -23,14 +29,14 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
       cursor: pointer;
     }
 
-    .mat-row:hover .mat-cell {
-      border-color: currentColor;
+    .mat-header-row {
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    .loading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .mat-row:hover .mat-cell {
+      border-color: currentColor;
     }
 
     .row-selected {
@@ -43,10 +49,7 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
     }
   `],
   template: `
-    <div *ngIf="!dataSource" class="loading">
-      <mat-spinner></mat-spinner>
-    </div>
-    <div *ngIf="dataSource">
+    <div class="table-container">
       <table mat-table [dataSource]="dataSource" matSort aria-describedby="Theses table">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header id="idColumn">ID</th>

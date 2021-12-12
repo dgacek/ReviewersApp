@@ -11,7 +11,7 @@ import { MaterialModule } from './shared/modules/material/material.module';
 import { LoginPageComponent } from './views/pages/login-page.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { LoginDialogComponent } from './views/components/dialogs/login-dialog.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { NavbarComponent } from './views/components/navbar.component';
@@ -54,6 +54,7 @@ import { DictionaryFormDialogComponent } from './views/components/dialogs/dictio
     HttpClientModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {return localStorage.getItem("token")}
