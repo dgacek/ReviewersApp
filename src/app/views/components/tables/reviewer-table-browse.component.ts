@@ -13,7 +13,7 @@ import { take } from 'rxjs/operators';
   selector: 'app-reviewer-table-browse',
   styles: [`
     .table-container {
-      max-height: 84vh;
+      max-height: calc(100vh - 64px - 49px - 40px - 70.88px);
       overflow: auto;
     }
 
@@ -45,8 +45,17 @@ import { take } from 'rxjs/operators';
       text-align: center;
       color: #bdbdbd;
     }
+
+    .search-field {
+      padding-left: 20px;
+      width: 30%;
+    }
   `],
   template: `
+    <mat-form-field appearance="standard" class="search-field">
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search..." #input>
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
     <div class="table-container">
       <table mat-table [dataSource]="dataSource" matSort aria-describedby="Reviewers table">
         <ng-container matColumnDef="id">
@@ -81,7 +90,8 @@ import { take } from 'rxjs/operators';
         </tr>
         <tr mat-row *matRowDef="let item; columns: displayedColumns;"
           (click)="setSelectedItem(item)"
-          [class.row-selected]="item.id === (selectedId$ | async)"></tr>
+          [class.row-selected]="item.id === (selectedId$ | async)"
+          [id]="'reviewer'+item.id"></tr>
       </table>
     </div>
   `
@@ -96,6 +106,15 @@ export class ReviewerTableBrowseComponent implements OnInit {
 
   constructor(private reviewerService: ReviewerService, private store: Store<AppState>) {
     this.selectedId$ = store.select('selectedReviewerId');
+    this.selectedId$.subscribe(
+      {
+        next: (value) => {
+          let elmnt = document.getElementById("reviewer"+value);
+          if (elmnt)
+            elmnt.scrollIntoView({block: 'center'});
+        }
+      }
+    )
   }
 
   ngOnInit(): void {
@@ -134,9 +153,23 @@ export class ReviewerTableBrowseComponent implements OnInit {
             }
           }
           this.dataSource.sort = this.sort;
+          this.dataSource.filterPredicate = (data, filter) => {
+            let datastring = "";
+            datastring += data.id + data.title.name + data.name + data.surname + data.faculty.symbol + data.faculty.name;
+            datastring = datastring.replace(/ /g, '').trim().toLowerCase();
+            if (data.tags.length > 0)
+              datastring += data.tags.reduce((prev, curr) => { return {name: prev.name+curr.name, id: 0}}).name.replace(/ /g,'').trim().toLowerCase();
+
+            return datastring.includes(filter);
+          }
         }
       }
     )
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.replace(/ /g, '').trim().toLowerCase();
   }
 
 }

@@ -7,7 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map, startWith, take } from 'rxjs/operators';
+import { map, startWith, take } from 'rxjs/operators';
 import { AppState } from 'src/app/app.state';
 import { DictionaryService } from 'src/app/services/rest/dictionary.service';
 import { ReviewerService } from 'src/app/services/rest/reviewer.service';

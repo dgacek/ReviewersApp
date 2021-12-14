@@ -15,7 +15,7 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
   styles: [`
 
     .table-container {
-      max-height: 84vh;
+      max-height: calc(100vh - 64px - 49px - 40px - 70.88px);
       overflow: auto;
     }
 
@@ -47,8 +47,17 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
       text-align: center;
       color: #bdbdbd; /* mat-grey 400 */
     }
+
+    .search-field {
+      padding-left: 20px;
+      width: 30%;
+    }
   `],
   template: `
+    <mat-form-field appearance="standard" class="search-field">
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search..." #input>
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
     <div class="table-container">
       <table mat-table [dataSource]="dataSource" matSort aria-describedby="Theses table">
         <ng-container matColumnDef="id">
@@ -86,7 +95,7 @@ export class ThesisTableBrowseComponent implements OnInit {
   selectedId$: Observable<number>;
   dataSource: MatTableDataSource<ThesisGetDTO> = new MatTableDataSource;
   @Input() viewUpdater: boolean = false;
-  @ViewChild(MatSort, {static: false}) private sort: MatSort = new MatSort;
+  @ViewChild(MatSort, { static: false }) private sort: MatSort = new MatSort;
 
   constructor(private thesisService: ThesisService, private store: Store<AppState>) {
     this.selectedId$ = store.select('selectedThesisId');
@@ -113,7 +122,7 @@ export class ThesisTableBrowseComponent implements OnInit {
           if (item.reviewer)
             this.store.dispatch(setSelectedReviewerId({ id: item.reviewer.id }));
         }
-        
+
       }
     );
   }
@@ -133,9 +142,26 @@ export class ThesisTableBrowseComponent implements OnInit {
             }
           }
           this.dataSource.sort = this.sort;
+          this.dataSource.filterPredicate = (data, filter) => {
+            let datastring = "";
+            datastring += data.id
+              + data.authorAlbumNumber
+              + data.topic
+              + data.reviewer?.title.name
+              + data.reviewer?.name
+              + data.reviewer?.surname;
+            datastring = datastring.replace(/ /g, '').trim().toLowerCase();
+
+            return datastring.includes(filter);
+          }
         }
       }
     )
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.replace(/ /g, '').trim().toLowerCase();
   }
 
 }
