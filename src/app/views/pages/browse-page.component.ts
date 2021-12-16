@@ -20,8 +20,8 @@ import { Component, OnInit } from '@angular/core';
   template: `
     <div class="root">
       <div class="panel">
-        <app-theses-toolbar></app-theses-toolbar>
-        <app-thesis-table-browse></app-thesis-table-browse>
+        <app-theses-toolbar (dataUpdated)="thesisUpdater = !thesisUpdater"></app-theses-toolbar>
+        <app-thesis-table-browse [viewUpdater]="thesisUpdater"></app-thesis-table-browse>
       </div>
       <div class="panel">
         <app-reviewers-toolbar></app-reviewers-toolbar>
@@ -30,11 +30,9 @@ import { Component, OnInit } from '@angular/core';
     </div>
   `
 })
-export class BrowsePageComponent implements OnInit {
+export class BrowsePageComponent {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  thesisUpdater = false;
+  reviewerUpdater = false;
 
 }

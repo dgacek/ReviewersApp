@@ -27,6 +27,7 @@ import { ThesesToolbarComponent } from './views/components/theses-toolbar.compon
 import { ReviewersToolbarComponent } from './views/components/reviewers-toolbar.component';
 import { ReviewerFormDialogComponent } from './views/components/dialogs/reviewer-form-dialog.component';
 import { DictionaryFormDialogComponent } from './views/components/dialogs/dictionary-form-dialog.component';
+import { ThesisFormDialogComponent } from './views/components/dialogs/thesis-form-dialog.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { DictionaryFormDialogComponent } from './views/components/dialogs/dictio
     ThesesToolbarComponent,
     ReviewersToolbarComponent,
     ReviewerFormDialogComponent,
-    DictionaryFormDialogComponent
+    DictionaryFormDialogComponent,
+    ThesisFormDialogComponent
   ],
   imports: [
     BrowserModule,

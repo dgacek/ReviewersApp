@@ -34,8 +34,7 @@ export class ReviewersToolbarComponent {
   selectedId$: Observable<number>;
   @Output() dataUpdated = new EventEmitter();
 
-  constructor(private reviewerService: ReviewerService,
-    private dialog: MatDialog,
+  constructor(private dialog: MatDialog,
     private store: Store<AppState>) {
     this.selectedId$ = store.select('selectedReviewerId');
   }
