@@ -19,7 +19,7 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
   selector: 'app-reviewer-table-assign',
   styles: [`
     .table-container {
-      max-height: calc(100vh - 64px - 49px - 87.13px);
+      max-height: calc(100vh - 64px - 49px - 127.13px);
       overflow: auto;
     }
 
@@ -29,7 +29,7 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
 
     .chip-list {
       width: 100%;
-      height: 87.13px;
+      height: 127.13px;
     }
 
     .mat-row .mat-cell {

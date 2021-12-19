@@ -54,9 +54,9 @@ export class ThesisFormDialogComponent implements OnInit {
     private thesisService: ThesisService,
     private store: Store<AppState>,
     private snackbar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) readonly prefs?: {edit: boolean}) {
-      this.selectedThesisId$ = store.select('selectedThesisId');
-    }
+    @Inject(MAT_DIALOG_DATA) readonly prefs?: { edit: boolean }) {
+    this.selectedThesisId$ = store.select('selectedThesisId');
+  }
 
   ngOnInit(): void {
     if (this.prefs?.edit === true) {
@@ -72,23 +72,36 @@ export class ThesisFormDialogComponent implements OnInit {
   }
 
   processForm(): void {
-    if(this.topicFormControl.value.length === 0)
-      this.snackbar.open("Topic cannot be empty", "Close", {duration: 3000});
+    if (this.topicFormControl.value.length === 0)
+      this.snackbar.open("Topic cannot be empty", "Close", { duration: 3000 });
     else if (this.authorAlbumNumberFormControl.value.length === 0)
-      this.snackbar.open("Author album number cannot be empty", "Close", {duration: 3000});
+      this.snackbar.open("Author album number cannot be empty", "Close", { duration: 3000 });
     else {
-      this.thesisService.add({topic: this.topicFormControl.value, authorAlbumNumber: this.authorAlbumNumberFormControl.value}).subscribe(
-        {
-          next: () => this.closeDialog(true),
-          error: () => this.snackbar.open("Unknown error", "Close", {duration: 3000})
-        }
-      )
+      if (this.prefs?.edit === true) {
+        this.selectedThesisId$.pipe(take(1)).subscribe(
+          (selectedThesisId) => {
+            this.thesisService.update({ id: selectedThesisId, topic: this.topicFormControl.value, authorAlbumNumber: this.authorAlbumNumberFormControl.value, reviewerId: null }).subscribe(
+              {
+                next: () => this.closeDialog(true),
+                error: () => this.snackbar.open("Unknown error", "Close", { duration: 3000 })
+              }
+            )
+          }
+        )
+      } else {
+        this.thesisService.add({ topic: this.topicFormControl.value, authorAlbumNumber: this.authorAlbumNumberFormControl.value }).subscribe(
+          {
+            next: () => this.closeDialog(true),
+            error: () => this.snackbar.open("Unknown error", "Close", { duration: 3000 })
+          }
+        )
+      }
     }
   }
 
   closeDialog(requestListUpdate?: boolean): void {
     this.snackbar.dismiss();
-    this.dialogRef.close({requestListUpdate: requestListUpdate});
+    this.dialogRef.close({ requestListUpdate: requestListUpdate });
   }
 
 }
