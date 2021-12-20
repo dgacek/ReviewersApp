@@ -149,7 +149,7 @@ export class ReviewerFormDialogComponent implements OnInit {
   tagFormControl: FormControl = new FormControl();
 
   constructor(private dialogRef: MatDialogRef<ReviewerFormDialogComponent>,
-    private thesisService: ReviewerService,
+    private reviewerService: ReviewerService,
     private dictionaryService: DictionaryService,
     private facultyService: FacultyService,
     private store: Store<AppState>,
@@ -163,7 +163,28 @@ export class ReviewerFormDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.updateFacultyList();
+    this.updateTitleList();
+    this.updateTagList();
+    if (this.prefs?.edit) {
+      this.selectedReviewerId$.subscribe(
+        (selectedReviewerId) => {
+          this.reviewerService.get(selectedReviewerId).subscribe({
+            next: (result) => {
+              if (result.length > 0) {
+                this.titleFormControl.setValue(result[0].title.id);
+                this.nameFormControl.setValue(result[0].name);
+                this.surnameFormControl.setValue(result[0].surname);
+                this.emailFormControl.setValue(result[0].email);
+                this.facultyFormControl.setValue(result[0].faculty.id);
+                if (result[0].tags.length > 0)
+                  this.selectedTags = result[0].tags;
+              }
+            }
+          })
+        }
+      )
+    }
   }
 
   closeDialog(requestListUpdate?: boolean): void {
@@ -204,5 +225,23 @@ export class ReviewerFormDialogComponent implements OnInit {
   private _filter(value: string): DictionaryGetUpdateDTO[] {
     const filterValue = value.toLowerCase().replace(/ /g, "");
     return this.tags.filter((tag) => tag.name.toLowerCase().replace(/ /g, "").includes(filterValue));
+  }
+
+  updateTitleList(): void {
+    this.dictionaryService.get("title").subscribe({
+      next: (result) => this.titles = result
+    })
+  }
+
+  updateFacultyList(): void {
+    this.facultyService.get().subscribe({
+      next: (result) => this.faculties = result
+    })
+  }
+
+  updateTagList(): void {
+    this.dictionaryService.get("tag").subscribe({
+      next: (result) => this.tags = result
+    })
   }
 }
