@@ -42,14 +42,14 @@ export class ReviewersToolbarComponent {
   openFormDialog(prefs: { edit: boolean }): void {
     this.store.pipe(select('selectedReviewerId'), take(1)).subscribe(
       (selectedId) => {
-        const dialogRef = this.dialog.open(ReviewerFormDialogComponent, prefs.edit ? { data: selectedId } : undefined);
+        const dialogRef = this.dialog.open(ReviewerFormDialogComponent, { data: {edit: prefs.edit} });
         dialogRef.afterClosed().subscribe(this.handleDialogClose.bind(this));
       }
     );
   }
 
   private handleDialogClose(response: any): void {
-    if (response && response.updateList) {
+    if (response && response.requestListUpdate) {
       this.dataUpdated.emit();
     }
   }

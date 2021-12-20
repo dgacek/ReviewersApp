@@ -3,17 +3,19 @@ import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
 import { FormControl, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { filter, map, startWith, take } from 'rxjs/operators';
 import { AppState } from 'src/app/app.state';
 import { DictionaryService } from 'src/app/services/rest/dictionary.service';
 import { FacultyService } from 'src/app/services/rest/faculty.service';
 import { ReviewerService } from 'src/app/services/rest/reviewer.service';
 import { DictionaryGetUpdateDTO } from 'src/app/shared/types/dto/dictionary/DictionaryGetUpdateDTO';
 import { FacultyGetUpdateDTO } from 'src/app/shared/types/dto/faculty/FacultyGetUpdateDTO';
+import { DictionaryFormDialogComponent } from './dictionary-form-dialog.component';
+import { FacultyFormDialogComponent } from './faculty-form-dialog.component';
 
 @Component({
   selector: 'app-reviewer-form-dialog',
@@ -46,10 +48,10 @@ import { FacultyGetUpdateDTO } from 'src/app/shared/types/dto/faculty/FacultyGet
           </mat-select>
         </mat-form-field>
         <div style="width: 120px;">
-          <button mat-icon-button>
+          <button mat-icon-button (click)="openTitleFormDialog({edit: false})">
             <mat-icon>add</mat-icon>
           </button>
-          <button mat-icon-button [disabled]="!titleFormControl.value">
+          <button mat-icon-button [disabled]="!titleFormControl.value" (click)="openTitleFormDialog({edit: true})">
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button [disabled]="!titleFormControl.value">
@@ -83,10 +85,10 @@ import { FacultyGetUpdateDTO } from 'src/app/shared/types/dto/faculty/FacultyGet
           </mat-select>
         </mat-form-field>
         <div style="width: 120px;">
-          <button mat-icon-button>
+          <button mat-icon-button (click)="openFacultyFormDialog({edit: false})">
             <mat-icon>add</mat-icon>
           </button>
-          <button mat-icon-button [disabled]="!facultyFormControl.value">
+          <button mat-icon-button [disabled]="!facultyFormControl.value" (click)="openFacultyFormDialog({edit: true})">
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button [disabled]="!facultyFormControl.value">
@@ -121,11 +123,15 @@ import { FacultyGetUpdateDTO } from 'src/app/shared/types/dto/faculty/FacultyGet
           </mat-autocomplete>
         </mat-form-field>
         <div style="width: 40px;">
-          <button mat-icon-button>
+          <button mat-icon-button (click)="openTagFormDialog({edit: false})">
             <mat-icon>add</mat-icon>
           </button>
         </div>
       </div>
+    </div>
+    <div mat-dialog-actions style="float: right;">
+      <button mat-stroked-button (click)="processForm()">Confirm</button>
+      <button mat-stroked-button (click)="closeDialog()">Cancel</button>
     </div>
   `
 })
@@ -154,6 +160,7 @@ export class ReviewerFormDialogComponent implements OnInit {
     private facultyService: FacultyService,
     private store: Store<AppState>,
     private snackbar: MatSnackBar,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) readonly prefs?: { edit: boolean }) {
     this.selectedReviewerId$ = store.select('selectedReviewerId');
     this.filteredTags = this.tagFormControl.valueChanges.pipe(
@@ -167,7 +174,7 @@ export class ReviewerFormDialogComponent implements OnInit {
     this.updateTitleList();
     this.updateTagList();
     if (this.prefs?.edit) {
-      this.selectedReviewerId$.subscribe(
+      this.selectedReviewerId$.pipe(take(1)).subscribe(
         (selectedReviewerId) => {
           this.reviewerService.get(selectedReviewerId).subscribe({
             next: (result) => {
@@ -223,7 +230,10 @@ export class ReviewerFormDialogComponent implements OnInit {
   }
 
   private _filter(value: string): DictionaryGetUpdateDTO[] {
-    const filterValue = value.toLowerCase().replace(/ /g, "");
+    let filterValue = value
+    if (typeof value === 'object')
+      filterValue = (value as DictionaryGetUpdateDTO).name;
+    filterValue = filterValue.toLowerCase().replace(/ /g, "");
     return this.tags.filter((tag) => tag.name.toLowerCase().replace(/ /g, "").includes(filterValue));
   }
 
@@ -243,5 +253,74 @@ export class ReviewerFormDialogComponent implements OnInit {
     this.dictionaryService.get("tag").subscribe({
       next: (result) => this.tags = result
     })
+  }
+
+  openTitleFormDialog(prefs: {edit: boolean}): void {
+    this.dialog.open(DictionaryFormDialogComponent, { data: { valueType: "title", editId: prefs.edit ? this.titleFormControl.value : undefined } }).afterClosed().subscribe({
+      next: (result) => {
+        if (result?.requestListUpdate)
+          this.updateTitleList();
+      }
+    })
+  }
+
+  openTagFormDialog(prefs: {edit: boolean}): void {
+    this.dialog.open(DictionaryFormDialogComponent, { data: { valueType: "tag", editId: prefs.edit ? this.titleFormControl.value : undefined } }).afterClosed().subscribe({
+      next: (result) => {
+        if (result?.requestListUpdate)
+          this.updateTagList();
+      }
+    })
+  }
+
+  openFacultyFormDialog(prefs: {edit: boolean}): void {
+    this.dialog.open(FacultyFormDialogComponent, { data: { editId: prefs.edit ? this.titleFormControl.value : undefined } }).afterClosed().subscribe({
+      next: (result) => {
+        if (result?.requestListUpdate)
+          this.updateFacultyList();
+      }
+    })
+  }
+
+  processForm(): void {
+    if (!this.titleFormControl.value)
+      this.snackbar.open("Title cannot be empty", "Close", { duration: 3000 });
+    else if (this.nameFormControl.value.length === 0)
+      this.snackbar.open("Name cannot be empty", "Close", { duration: 3000 });
+    else if (this.surnameFormControl.value.length === 0)
+      this.snackbar.open("Surname cannot be empty", "Close", { duration: 3000 });
+    else if (this.emailFormControl.errors)
+      this.snackbar.open("Enter valid email or leave the field empty", "Close", { duration: 3000 });
+    else if (!this.facultyFormControl.value)
+      this.snackbar.open("Name cannot be empty", "Close", { duration: 3000 });
+    else {
+      if (this.prefs?.edit) {
+        this.selectedReviewerId$.pipe(take(1)).subscribe((selectedReviewerId) => this.reviewerService.update({
+          id: selectedReviewerId, 
+          titleId: this.titleFormControl.value as number, 
+          name: this.nameFormControl.value as string, 
+          surname: this.surnameFormControl.value as string, 
+          email: this.emailFormControl.value as string,
+          facultyId: this.facultyFormControl.value as number,
+          tagIdList: this.selectedTags.map((item) => item.id)
+        }).subscribe({
+          next: () => this.closeDialog(true),
+          error: () => this.snackbar.open("Unknown error", "Close", { duration: 3000 })
+        }))
+      } else {
+        this.reviewerService.add({ 
+          titleId: this.titleFormControl.value as number, 
+          name: this.nameFormControl.value as string, 
+          surname: this.surnameFormControl.value as string, 
+          email: this.emailFormControl.value as string,
+          facultyId: this.facultyFormControl.value as number,
+          tagIdList: this.selectedTags.map((item) => item.id)
+        }).subscribe({
+          next: () => this.closeDialog(true),
+          error: () => this.snackbar.open("Unknown error", "Close", { duration: 3000 })
+        })
+      }
+    }
+
   }
 }
