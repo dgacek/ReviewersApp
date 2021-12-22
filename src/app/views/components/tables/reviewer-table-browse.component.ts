@@ -53,29 +53,29 @@ import { take } from 'rxjs/operators';
   `],
   template: `
     <mat-form-field appearance="standard" class="search-field">
-      <input matInput (keyup)="applyFilter($event)" placeholder="Search..." #input>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Szukaj..." #input>
       <mat-icon matPrefix>search</mat-icon>
     </mat-form-field>
     <div class="table-container">
-      <table mat-table [dataSource]="dataSource" matSort aria-describedby="Reviewers table">
+      <table mat-table [dataSource]="dataSource" matSort aria-describedby="Tabela recenzentów">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header id="idColumn">ID</th>
           <td mat-cell *matCellDef="let element">{{element.id}}</td>
         </ng-container>
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header id="albumColumn">Name</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header id="albumColumn">Imię</th>
           <td mat-cell *matCellDef="let element">{{element.name}}</td>
         </ng-container>
         <ng-container matColumnDef="surname">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header id="surnameColumn">Surname</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header id="surnameColumn">Nazwisko</th>
           <td mat-cell *matCellDef="let element">{{element.surname}}</td>
         </ng-container>
         <ng-container matColumnDef="title">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header id="titleColumn">Title</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header id="titleColumn">Tytuł</th>
           <td mat-cell *matCellDef="let element">{{element.title.name}}</td>
         </ng-container>
         <ng-container matColumnDef="faculty">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header id="facultyColumn">Faculty</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header id="facultyColumn">Katedra</th>
           <td mat-cell *matCellDef="let element">{{element.faculty.symbol}} - {{element.faculty.name}}</td>
         </ng-container>
         <ng-container matColumnDef="email">
@@ -85,7 +85,7 @@ import { take } from 'rxjs/operators';
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" [colSpan]="displayedColumns.length">
-            <div class="no-items">No items</div>
+            <div class="no-items">Brak danych</div>
           </td>
         </tr>
         <tr mat-row *matRowDef="let item; columns: displayedColumns;"

@@ -55,25 +55,25 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
   `],
   template: `
     <mat-form-field appearance="standard" class="search-field">
-      <input matInput (keyup)="applyFilter($event)" placeholder="Search..." #input>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Szukaj..." #input>
       <mat-icon matPrefix>search</mat-icon>
     </mat-form-field>
     <div class="table-container">
-      <table mat-table [dataSource]="dataSource" matSort aria-describedby="Theses table">
+      <table mat-table [dataSource]="dataSource" matSort aria-describedby="Tabela prac dyplomowych">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header id="idColumn">ID</th>
           <td mat-cell *matCellDef="let element">{{element.id}}</td>
         </ng-container>
         <ng-container matColumnDef="authorAlbumNumber">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header id="albumColumn">Author album number</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header id="albumColumn">Numer albumu autora</th>
           <td mat-cell *matCellDef="let element">{{element.authorAlbumNumber}}</td>
         </ng-container>
         <ng-container matColumnDef="topic">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header id="topicColumn">Topic</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header id="topicColumn">Temat</th>
           <td mat-cell *matCellDef="let element">{{element.topic}}</td>
         </ng-container>
         <ng-container matColumnDef="reviewer">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header id="reviewerColumn">Reviewer</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header id="reviewerColumn">Recenzent</th>
           <td mat-cell *matCellDef="let element">{{element.reviewer ? element.reviewer.title.name+" "+element.reviewer.name+" "+element.reviewer.surname : ""}}</td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

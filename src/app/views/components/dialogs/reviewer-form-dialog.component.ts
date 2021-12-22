@@ -32,7 +32,7 @@ import { GenericYesnoDialogComponent } from './generic-yesno-dialog.component';
   `],
   template: `
     <div class="dialog-header">
-      <h1 mat-dialog-title>{{prefs?.edit === true ? "Edit reviewer" : "Add reviewer"}}</h1>
+      <h1 mat-dialog-title>{{prefs?.edit === true ? "Edycja recenzenta" : "Dodawanie recenzenta"}}</h1>
       <div class="spacer"></div>
       <button mat-icon-button (click)="closeDialog()">
         <mat-icon>close</mat-icon>
@@ -62,11 +62,11 @@ import { GenericYesnoDialogComponent } from './generic-yesno-dialog.component';
       </div>
       <div class="flex-row">
         <mat-form-field appearance="fill" style="margin-right: 5px;">
-          <mat-label>Name</mat-label>
+          <mat-label>Imię</mat-label>
           <input matInput [formControl]="nameFormControl">
         </mat-form-field>
         <mat-form-field appearance="fill" style="margin-left: 5px;">
-          <mat-label>Surname</mat-label>
+          <mat-label>Nazwisko</mat-label>
           <input matInput [formControl]="surnameFormControl">
         </mat-form-field>
       </div>
@@ -78,7 +78,7 @@ import { GenericYesnoDialogComponent } from './generic-yesno-dialog.component';
       </div>
       <div class="flex-row">
         <mat-form-field appearance="fill" style="flex: 1;">
-          <mat-label>Faculty</mat-label>
+          <mat-label>Katedra</mat-label>
           <mat-select [formControl]="facultyFormControl">
             <mat-option *ngFor="let faculty of faculties" [value]="faculty.id">
               {{faculty.symbol}} - {{faculty.name}}
@@ -99,7 +99,7 @@ import { GenericYesnoDialogComponent } from './generic-yesno-dialog.component';
       </div>
       <div class="flex-row">
         <mat-form-field appearance="fill" style="flex: 1;">
-          <mat-label>Tags</mat-label>
+          <mat-label>Tagi</mat-label>
           <mat-chip-list #chipList>
             <mat-chip
               *ngFor="let tag of selectedTags"
@@ -131,8 +131,8 @@ import { GenericYesnoDialogComponent } from './generic-yesno-dialog.component';
       </div>
     </div>
     <div mat-dialog-actions style="float: right;">
-      <button mat-stroked-button (click)="processForm()">Confirm</button>
-      <button mat-stroked-button (click)="closeDialog()">Cancel</button>
+      <button mat-stroked-button (click)="processForm()">Zatwierdź</button>
+      <button mat-stroked-button (click)="closeDialog()">Anuluj</button>
     </div>
   `
 })
@@ -208,7 +208,7 @@ export class ReviewerFormDialogComponent implements OnInit {
       event.chipInput!.clear();
       this.tagFormControl.setValue(null);
     } else {
-      this.snackbar.open(`Tag "${tagName}" does not exist. You might want to add it with the + button`, "OK", { duration: 4000 });
+      this.snackbar.open(`Tag "${tagName}" nie istnieje. Możesz go dodać przyciskiem +`, "OK", { duration: 4000 });
     }
   }
 
@@ -226,7 +226,7 @@ export class ReviewerFormDialogComponent implements OnInit {
       this.tagInput.nativeElement.value = '';
       this.tagFormControl.setValue(null);
     } else {
-      this.snackbar.open("Unknown error", "OK", { duration: 3000 });
+      this.snackbar.open("Nieoczekiwany błąd", "OK", { duration: 3000 });
     }
   }
 
@@ -275,7 +275,7 @@ export class ReviewerFormDialogComponent implements OnInit {
   }
 
   openFacultyFormDialog(prefs: { edit: boolean }): void {
-    this.dialog.open(FacultyFormDialogComponent, { data: { editId: prefs.edit ? this.titleFormControl.value : undefined } }).afterClosed().subscribe({
+    this.dialog.open(FacultyFormDialogComponent, { data: { editId: prefs.edit ? this.facultyFormControl.value : undefined } }).afterClosed().subscribe({
       next: (result) => {
         if (result?.requestListUpdate)
           this.updateFacultyList();
@@ -284,7 +284,7 @@ export class ReviewerFormDialogComponent implements OnInit {
   }
 
   openDeleteTitleDialog(): void {
-    this.dialog.open(GenericYesnoDialogComponent, { data: { title: "Delete title", text: "Are you sure you want to delete this title?" } }).afterClosed().subscribe({
+    this.dialog.open(GenericYesnoDialogComponent, { data: { title: "Usuwanie tytułu", text: "Czy na pewno chcesz usunąć ten tytuł?" } }).afterClosed().subscribe({
       next: (result) => {
         if (result === true) {
           this.dictionaryService.delete("title", this.titleFormControl.value).subscribe({
@@ -296,7 +296,7 @@ export class ReviewerFormDialogComponent implements OnInit {
   }
 
   openDeleteFacultyDialog(): void {
-    this.dialog.open(GenericYesnoDialogComponent, { data: { title: "Delete faculty", text: "Are you sure you want to delete this faculty?" } }).afterClosed().subscribe({
+    this.dialog.open(GenericYesnoDialogComponent, { data: { title: "Usuwanie katedry", text: "Czy na pewno chcesz usunąć tę ketedrę?" } }).afterClosed().subscribe({
       next: (result) => {
         if (result === true) {
           this.facultyService.delete(this.facultyFormControl.value).subscribe({
@@ -309,15 +309,15 @@ export class ReviewerFormDialogComponent implements OnInit {
 
   processForm(): void {
     if (!this.titleFormControl.value)
-      this.snackbar.open("Title cannot be empty", "Close", { duration: 3000 });
+      this.snackbar.open("Tytuł nie może być pusty", "OK", { duration: 3000 });
     else if (this.nameFormControl.value.length === 0)
-      this.snackbar.open("Name cannot be empty", "Close", { duration: 3000 });
+      this.snackbar.open("Imię nie może byc puste", "OK", { duration: 3000 });
     else if (this.surnameFormControl.value.length === 0)
-      this.snackbar.open("Surname cannot be empty", "Close", { duration: 3000 });
+      this.snackbar.open("Nazwisko nie może być puste", "OK", { duration: 3000 });
     else if (this.emailFormControl.errors)
-      this.snackbar.open("Enter valid email or leave the field empty", "Close", { duration: 3000 });
+      this.snackbar.open("Podaj prawidłowy adres email lub pozostaw pole puste", "OK", { duration: 3000 });
     else if (!this.facultyFormControl.value)
-      this.snackbar.open("Name cannot be empty", "Close", { duration: 3000 });
+      this.snackbar.open("Katedra nie może byc pusta", "OK", { duration: 3000 });
     else {
       if (this.prefs?.edit) {
         this.selectedReviewerId$.pipe(take(1)).subscribe((selectedReviewerId) => this.reviewerService.update({
@@ -330,7 +330,7 @@ export class ReviewerFormDialogComponent implements OnInit {
           tagIdList: this.selectedTags.map((item) => item.id)
         }).subscribe({
           next: () => this.closeDialog(true),
-          error: () => this.snackbar.open("Unknown error", "Close", { duration: 3000 })
+          error: () => this.snackbar.open("Nieoczekiwany błąd", "OK", { duration: 3000 })
         }))
       } else {
         this.reviewerService.add({
@@ -342,7 +342,7 @@ export class ReviewerFormDialogComponent implements OnInit {
           tagIdList: this.selectedTags.map((item) => item.id)
         }).subscribe({
           next: () => this.closeDialog(true),
-          error: () => this.snackbar.open("Unknown error", "Close", { duration: 3000 })
+          error: () => this.snackbar.open("Nieoczekiwany błąd", "OK", { duration: 3000 })
         })
       }
     }

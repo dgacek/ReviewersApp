@@ -51,7 +51,7 @@ export class ReviewersToolbarComponent {
   }
 
   openDeleteDialog(): void {
-    this.dialog.open(GenericYesnoDialogComponent, {data: {title: "Delete reviewer", text: "Are you sure you want to delete this reviewer?"}}).afterClosed().subscribe({
+    this.dialog.open(GenericYesnoDialogComponent, {data: {title: "Usuwanie recenzenta", text: "Czy na pewno chcesz usunąć tego recenzenta?"}}).afterClosed().subscribe({
       next: (result) => {
         if (result === true) {
           this.selectedId$.pipe(take(1)).subscribe(

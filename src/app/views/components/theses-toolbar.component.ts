@@ -47,7 +47,7 @@ export class ThesesToolbarComponent {
   }
 
   openDeleteDialog(): void {
-    this.dialog.open(GenericYesnoDialogComponent, {data: {title: "Delete thesis", text: "Are you sure you want to delete this thesis?"}}).afterClosed().subscribe({
+    this.dialog.open(GenericYesnoDialogComponent, {data: {title: "Usuwanie pracy dyplomowej", text: "Czy na pewno chcesz usunąć tą pracę dyplomową?"}}).afterClosed().subscribe({
       next: (result) => {
         if (result === true) {
           this.selectedId$.pipe(take(1)).subscribe(

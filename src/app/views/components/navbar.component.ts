@@ -8,9 +8,9 @@ import { Component } from '@angular/core';
   template: `
     <nav mat-tab-nav-bar mat-align-tabs="center">
       <a mat-tab-link routerLink="/assign" routerLinkActive #rla1="routerLinkActive"
-        [routerLinkActiveOptions]="{exact:true}" [active]="rla1.isActive">Assign</a>
+        [routerLinkActiveOptions]="{exact:true}" [active]="rla1.isActive">Przypisywanie</a>
       <a mat-tab-link routerLink="/browse" routerLinkActive #rla2="routerLinkActive"
-        [routerLinkActiveOptions]="{exact:true}" [active]="rla2.isActive">Browse</a>
+        [routerLinkActiveOptions]="{exact:true}" [active]="rla2.isActive">Przeglądanie</a>
     </nav>
   `
 })

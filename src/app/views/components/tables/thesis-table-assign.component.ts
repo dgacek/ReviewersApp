@@ -74,10 +74,10 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
         </button>
       </div>
       <div>
-          <h3>Topic:</h3>
+          <h3>Temat:</h3>
           <p>{{selectedItem ? selectedItem.topic : "\n"}}</p>
           <br>
-          <h4>Author album number:</h4>
+          <h4>Numer albumu autora:</h4>
           <p>{{selectedItem ? selectedItem.authorAlbumNumber : "\n"}}</p>
       </div>
       <div class="button-nav">
@@ -94,21 +94,21 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
             <td mat-cell *matCellDef="let element">{{element.id}}</td>
           </ng-container>
           <ng-container matColumnDef="authorAlbumNumber">
-            <th mat-header-cell *matHeaderCellDef id="albumColumn">Author album number</th>
+            <th mat-header-cell *matHeaderCellDef id="albumColumn">Numer albumu autora</th>
             <td mat-cell *matCellDef="let element">{{element.authorAlbumNumber}}</td>
           </ng-container>
           <ng-container matColumnDef="topic">
-            <th mat-header-cell *matHeaderCellDef id="topicColumn">Topic</th>
+            <th mat-header-cell *matHeaderCellDef id="topicColumn">Temat</th>
             <td mat-cell *matCellDef="let element">{{element.topic}}</td>
           </ng-container>
           <ng-container matColumnDef="reviewer">
-            <th mat-header-cell *matHeaderCellDef id="reviewerColumn">Reviewer</th>
+            <th mat-header-cell *matHeaderCellDef id="reviewerColumn">Recenzent</th>
             <td mat-cell *matCellDef="let element">{{element.reviewer?.title.name}} {{element.reviewer?.name}} {{element.reviewer?.surname}}</td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" [colSpan]="displayedColumns.length">
-              <div class="no-items">No items</div>
+              <div class="no-items">Brak danych</div>
             </td>
           </tr>
           <tr mat-row *matRowDef="let item; let i = index; columns: displayedColumns;"

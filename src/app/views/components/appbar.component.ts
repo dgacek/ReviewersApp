@@ -28,10 +28,10 @@ import { SettingsDialogComponent } from './dialogs/settings-dialog.component';
           <mat-icon>settings</mat-icon>
         </button>
         <div *ngIf="isAuthenticated(); else elseBlock">
-          <button mat-button (click)="logout()">Logout</button>
+          <button mat-button (click)="logout()">Wyloguj</button>
         </div>
         <ng-template #elseBlock>
-          <button mat-button routerLink="/login" routerLinkActive="active">Login</button>
+          <button mat-button routerLink="/login" routerLinkActive="active">Zaloguj</button>
         </ng-template>
       </div>
     </mat-toolbar>

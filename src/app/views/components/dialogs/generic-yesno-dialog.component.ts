@@ -26,10 +26,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
     </div>
     <div mat-dialog-actions style="float: right;">
       <button mat-button (click)="closeDialog(true)">
-        Yes
+        Tak
       </button>
       <button mat-button (click)="closeDialog(false)">
-        No
+        Nie
       </button>
     </div>
   `

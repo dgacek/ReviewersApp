@@ -59,7 +59,7 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
   `],
   template: `
       <mat-form-field class="chip-list" appearance="fill">
-        <mat-label>Search by tags</mat-label>
+        <mat-label>Wyszukaj po tagach</mat-label>
         <mat-chip-list #chipList>
           <mat-chip *ngFor="let tag of selectedTags" (removed)="remove(tag)">
             {{tag}}
@@ -68,7 +68,7 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
             </button>
           </mat-chip>
           <input
-            placeholder="Add tag..."
+            placeholder="Dodaj tag..."
             #tagInput
             [formControl]="tagCtrl"
             [matAutocomplete]="auto"
@@ -83,25 +83,25 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
         </mat-autocomplete>
       </mat-form-field>
       <div class=table-container>
-        <table mat-table [dataSource]="dataSource" matSort aria-describedby="Reviewers table">
+        <table mat-table [dataSource]="dataSource" matSort aria-describedby="Tabela recenzentów">
           <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header id="idColumn">ID</th>
             <td mat-cell *matCellDef="let element">{{element.id}}</td>
           </ng-container>
           <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header id="albumColumn">Name</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header id="albumColumn">Imię</th>
             <td mat-cell *matCellDef="let element">{{element.name}}</td>
           </ng-container>
           <ng-container matColumnDef="surname">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header id="surnameColumn">Surname</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header id="surnameColumn">Nazwisko</th>
             <td mat-cell *matCellDef="let element">{{element.surname}}</td>
           </ng-container>
           <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header id="titleColumn">Title</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header id="titleColumn">Tytuł</th>
             <td mat-cell *matCellDef="let element">{{element.title.name}}</td>
           </ng-container>
           <ng-container matColumnDef="faculty">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header id="facultyColumn">Faculty</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header id="facultyColumn">Katedra</th>
             <td mat-cell *matCellDef="let element">{{element.faculty.symbol}} - {{element.faculty.name}}</td>
           </ng-container>
           <ng-container matColumnDef="email">
@@ -109,13 +109,13 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
             <td mat-cell *matCellDef="let element">{{element.email ? element.email : ""}}</td>
           </ng-container>
           <ng-container matColumnDef="tags">
-            <th mat-header-cell *matHeaderCellDef id="tagsColumn">Tags</th>
+            <th mat-header-cell *matHeaderCellDef id="tagsColumn">Tagi</th>
             <td mat-cell *matCellDef="let element"><span *ngFor="let tag of element.tags; let isLast=last">{{tag.name}}{{isLast ? '' : ', '}}</span></td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" [colSpan]="displayedColumns.length">
-              <div class="no-items">No items</div>
+              <div class="no-items">Brak danych</div>
             </td>
           </tr>
           <tr mat-row *matRowDef="let item; columns: displayedColumns;"

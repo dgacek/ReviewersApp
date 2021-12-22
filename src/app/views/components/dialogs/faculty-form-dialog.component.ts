@@ -18,7 +18,7 @@ import { FacultyService } from 'src/app/services/rest/faculty.service';
   `],
   template: `
     <div class="dialog-header">
-      <h1 mat-dialog-title>{{prefs?.editId ? "Edit faculty" : "Add faculty"}}</h1>
+      <h1 mat-dialog-title>{{prefs?.editId ? "Edycja katedry" : "Dodawanie katedry"}}</h1>
       <div class="spacer"></div>
       <button mat-icon-button (click)="closeDialog()">
         <mat-icon>close</mat-icon>
@@ -30,13 +30,13 @@ import { FacultyService } from 'src/app/services/rest/faculty.service';
         <input matInput [formControl]="symbolFormControl">
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Name</mat-label>
+        <mat-label>Nazwa</mat-label>
         <input matInput [formControl]="nameFormControl">
       </mat-form-field>
     </div>
     <div mat-dialog-actions style="float: right;">
-      <button mat-stroked-button (click)="processForm()">Confirm</button>
-      <button mat-stroked-button (click)="closeDialog()">Cancel</button>
+      <button mat-stroked-button (click)="processForm()">Zatwierdź</button>
+      <button mat-stroked-button (click)="closeDialog()">Anuluj</button>
     </div>
   `
 })
@@ -65,22 +65,22 @@ export class FacultyFormDialogComponent implements OnInit {
 
   processForm(): void {
     if (this.symbolFormControl.value.length === 0)
-      this.snackbar.open("Symbol cannot be empty", "Close", { duration: 3000 });
+      this.snackbar.open("Symbol nie może być pusty", "OK", { duration: 3000 });
     else if (this.nameFormControl.value.length === 0)
-      this.snackbar.open("Name cannot be empty", "Close", { duration: 3000 });
+      this.snackbar.open("Nazwa nie może być pusta", "OK", { duration: 3000 });
     else {
       if (this.prefs?.editId) {
         this.facultyService.update({ id: this.prefs.editId, symbol: this.symbolFormControl.value, name: this.nameFormControl.value }).subscribe(
           {
             next: () => this.closeDialog(true),
-            error: () => this.snackbar.open("Unknown error", "Close", { duration: 3000 })
+            error: () => this.snackbar.open("Nieoczekiwany błąd", "OK", { duration: 3000 })
           }
         )
       } else {
         this.facultyService.add({ symbol: this.symbolFormControl.value, name: this.nameFormControl.value }).subscribe(
           {
             next: () => this.closeDialog(true),
-            error: () => this.snackbar.open("Unknown error", "Close", { duration: 3000 })
+            error: () => this.snackbar.open("Nieoczekiwany błąd", "OK", { duration: 3000 })
           }
         )
       }

@@ -18,20 +18,20 @@ import { AuthResponseDTO } from 'src/app/shared/types/dto/auth/AuthResponseDTO';
   `],
   template: `
     <div class="center">
-      <h1 mat-dialog-title>Login</h1>
+      <h1 mat-dialog-title>Logowanie</h1>
       <div mat-dialog-content>
         <mat-form-field>
-          <mat-label>Username</mat-label>
+          <mat-label>Login</mat-label>
           <input matInput [(ngModel)]="username">
         </mat-form-field>
         <br>
         <mat-form-field>
-          <mat-label>Password</mat-label>
+          <mat-label>Hasło</mat-label>
           <input matInput type="password" [(ngModel)]="password">
         </mat-form-field>
       </div>
       <div mat-dialog-actions>
-        <button mat-raised-button color="accent" (click)="processForm()">Login</button>
+        <button mat-raised-button color="accent" (click)="processForm()">Zaloguj</button>
       </div>
     </div>
   `

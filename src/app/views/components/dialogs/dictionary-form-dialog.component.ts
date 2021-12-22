@@ -18,7 +18,7 @@ import { DictionaryService } from 'src/app/services/rest/dictionary.service';
   `],
   template: `
     <div class="dialog-header">
-      <h1 mat-dialog-title>{{prefs?.editId ? "Edit" : "Add"}} {{prefs?.valueType}}</h1>
+      <h1 mat-dialog-title>{{prefs?.editId ? "Edycja" : "Dodawanie"}} {{prefs?.valueType === "title" ? "tytułu" : "taga"}}</h1>
       <div class="spacer"></div>
       <button mat-icon-button (click)="closeDialog()">
         <mat-icon>close</mat-icon>
@@ -26,13 +26,13 @@ import { DictionaryService } from 'src/app/services/rest/dictionary.service';
     </div>
     <div mat-dialog-content class="dialog-content">
       <mat-form-field>
-        <mat-label>Name</mat-label>
+        <mat-label>Nazwa</mat-label>
         <input matInput [formControl]="nameFormControl">
       </mat-form-field>
     </div>
     <div mat-dialog-actions style="float: right;">
-      <button mat-stroked-button (click)="processForm()">Confirm</button>
-      <button mat-stroked-button (click)="closeDialog()">Cancel</button>
+      <button mat-stroked-button (click)="processForm()">Zatwierdź</button>
+      <button mat-stroked-button (click)="closeDialog()">Anuluj</button>
     </div>
   `
 })
@@ -64,20 +64,20 @@ export class DictionaryFormDialogComponent implements OnInit {
 
   processForm(): void {
     if (this.nameFormControl.value.length === 0)
-      this.snackbar.open("Name cannot be empty", "Close", { duration: 3000 });
+      this.snackbar.open("Nazwa nie może być pusta", "OK", { duration: 3000 });
     else {
       if (this.prefs?.editId) {
         this.dictionaryService.update(this.prefs.valueType, { id: this.prefs.editId, name: this.nameFormControl.value }).subscribe(
           {
             next: () => this.closeDialog(true),
-            error: () => this.snackbar.open("Unknown error", "Close", { duration: 3000 })
+            error: () => this.snackbar.open("Nieoczekiwany błąd", "OK", { duration: 3000 })
           }
         )
       } else {
         this.dictionaryService.add(this.prefs!.valueType, { name: this.nameFormControl.value }).subscribe(
           {
             next: () => this.closeDialog(true),
-            error: () => this.snackbar.open("Unknown error", "Close", { duration: 3000 })
+            error: () => this.snackbar.open("Nieoczekiwany błąd", "OK", { duration: 3000 })
           }
         )
       }
