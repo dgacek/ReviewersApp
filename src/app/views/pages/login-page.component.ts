@@ -17,11 +17,4 @@ import { Component, OnInit } from '@angular/core';
     </div>
   `
 })
-export class LoginPageComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class LoginPageComponent {}
