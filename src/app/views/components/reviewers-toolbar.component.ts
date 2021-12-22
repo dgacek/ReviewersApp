@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AppState } from 'src/app/app.state';
 import { ReviewerService } from 'src/app/services/rest/reviewer.service';
+import { GenericYesnoDialogComponent } from './dialogs/generic-yesno-dialog.component';
 import { ReviewerFormDialogComponent } from './dialogs/reviewer-form-dialog.component';
 
 @Component({
@@ -20,7 +21,7 @@ import { ReviewerFormDialogComponent } from './dialogs/reviewer-form-dialog.comp
       <button mat-icon-button (click)="openFormDialog({ edit: true })" [disabled]="(selectedId$ | async) === 0">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button [disabled]="(selectedId$ | async) === 0">
+      <button mat-icon-button (click)="openDeleteDialog()" [disabled]="(selectedId$ | async) === 0">
         <mat-icon>delete</mat-icon>
       </button>
       <button mat-icon-button>
@@ -35,7 +36,8 @@ export class ReviewersToolbarComponent {
   @Output() dataUpdated = new EventEmitter();
 
   constructor(private dialog: MatDialog,
-    private store: Store<AppState>) {
+    private store: Store<AppState>,
+    private reviewerService: ReviewerService) {
     this.selectedId$ = store.select('selectedReviewerId');
   }
 
@@ -46,6 +48,22 @@ export class ReviewersToolbarComponent {
         dialogRef.afterClosed().subscribe(this.handleDialogClose.bind(this));
       }
     );
+  }
+
+  openDeleteDialog(): void {
+    this.dialog.open(GenericYesnoDialogComponent, {data: {title: "Delete reviewer", text: "Are you sure you want to delete this reviewer?"}}).afterClosed().subscribe({
+      next: (result) => {
+        if (result === true) {
+          this.selectedId$.pipe(take(1)).subscribe(
+            (selectedId) => {
+              this.reviewerService.delete(selectedId).subscribe({
+                next: () => this.dataUpdated.emit(),
+              })
+            }
+          )
+        }
+      }
+    })
   }
 
   private handleDialogClose(response: any): void {

@@ -16,6 +16,7 @@ import { DictionaryGetUpdateDTO } from 'src/app/shared/types/dto/dictionary/Dict
 import { FacultyGetUpdateDTO } from 'src/app/shared/types/dto/faculty/FacultyGetUpdateDTO';
 import { DictionaryFormDialogComponent } from './dictionary-form-dialog.component';
 import { FacultyFormDialogComponent } from './faculty-form-dialog.component';
+import { GenericYesnoDialogComponent } from './generic-yesno-dialog.component';
 
 @Component({
   selector: 'app-reviewer-form-dialog',
@@ -54,7 +55,7 @@ import { FacultyFormDialogComponent } from './faculty-form-dialog.component';
           <button mat-icon-button [disabled]="!titleFormControl.value" (click)="openTitleFormDialog({edit: true})">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button [disabled]="!titleFormControl.value">
+          <button mat-icon-button [disabled]="!titleFormControl.value" (click)="openDeleteTitleDialog()">
             <mat-icon>delete</mat-icon>
           </button>
         </div>
@@ -91,7 +92,7 @@ import { FacultyFormDialogComponent } from './faculty-form-dialog.component';
           <button mat-icon-button [disabled]="!facultyFormControl.value" (click)="openFacultyFormDialog({edit: true})">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button [disabled]="!facultyFormControl.value">
+          <button mat-icon-button [disabled]="!facultyFormControl.value" (click)="openDeleteFacultyDialog()">
             <mat-icon>delete</mat-icon>
           </button>
         </div>
@@ -255,7 +256,7 @@ export class ReviewerFormDialogComponent implements OnInit {
     })
   }
 
-  openTitleFormDialog(prefs: {edit: boolean}): void {
+  openTitleFormDialog(prefs: { edit: boolean }): void {
     this.dialog.open(DictionaryFormDialogComponent, { data: { valueType: "title", editId: prefs.edit ? this.titleFormControl.value : undefined } }).afterClosed().subscribe({
       next: (result) => {
         if (result?.requestListUpdate)
@@ -264,7 +265,7 @@ export class ReviewerFormDialogComponent implements OnInit {
     })
   }
 
-  openTagFormDialog(prefs: {edit: boolean}): void {
+  openTagFormDialog(prefs: { edit: boolean }): void {
     this.dialog.open(DictionaryFormDialogComponent, { data: { valueType: "tag", editId: prefs.edit ? this.titleFormControl.value : undefined } }).afterClosed().subscribe({
       next: (result) => {
         if (result?.requestListUpdate)
@@ -273,11 +274,35 @@ export class ReviewerFormDialogComponent implements OnInit {
     })
   }
 
-  openFacultyFormDialog(prefs: {edit: boolean}): void {
+  openFacultyFormDialog(prefs: { edit: boolean }): void {
     this.dialog.open(FacultyFormDialogComponent, { data: { editId: prefs.edit ? this.titleFormControl.value : undefined } }).afterClosed().subscribe({
       next: (result) => {
         if (result?.requestListUpdate)
           this.updateFacultyList();
+      }
+    })
+  }
+
+  openDeleteTitleDialog(): void {
+    this.dialog.open(GenericYesnoDialogComponent, { data: { title: "Delete title", text: "Are you sure you want to delete this title?" } }).afterClosed().subscribe({
+      next: (result) => {
+        if (result === true) {
+          this.dictionaryService.delete("title", this.titleFormControl.value).subscribe({
+            next: () => this.updateTitleList()
+          })
+        }
+      }
+    })
+  }
+
+  openDeleteFacultyDialog(): void {
+    this.dialog.open(GenericYesnoDialogComponent, { data: { title: "Delete faculty", text: "Are you sure you want to delete this faculty?" } }).afterClosed().subscribe({
+      next: (result) => {
+        if (result === true) {
+          this.facultyService.delete(this.facultyFormControl.value).subscribe({
+            next: () => this.updateFacultyList()
+          })
+        }
       }
     })
   }
@@ -296,10 +321,10 @@ export class ReviewerFormDialogComponent implements OnInit {
     else {
       if (this.prefs?.edit) {
         this.selectedReviewerId$.pipe(take(1)).subscribe((selectedReviewerId) => this.reviewerService.update({
-          id: selectedReviewerId, 
-          titleId: this.titleFormControl.value as number, 
-          name: this.nameFormControl.value as string, 
-          surname: this.surnameFormControl.value as string, 
+          id: selectedReviewerId,
+          titleId: this.titleFormControl.value as number,
+          name: this.nameFormControl.value as string,
+          surname: this.surnameFormControl.value as string,
           email: this.emailFormControl.value as string,
           facultyId: this.facultyFormControl.value as number,
           tagIdList: this.selectedTags.map((item) => item.id)
@@ -308,10 +333,10 @@ export class ReviewerFormDialogComponent implements OnInit {
           error: () => this.snackbar.open("Unknown error", "Close", { duration: 3000 })
         }))
       } else {
-        this.reviewerService.add({ 
-          titleId: this.titleFormControl.value as number, 
-          name: this.nameFormControl.value as string, 
-          surname: this.surnameFormControl.value as string, 
+        this.reviewerService.add({
+          titleId: this.titleFormControl.value as number,
+          name: this.nameFormControl.value as string,
+          surname: this.surnameFormControl.value as string,
           email: this.emailFormControl.value as string,
           facultyId: this.facultyFormControl.value as number,
           tagIdList: this.selectedTags.map((item) => item.id)

@@ -29,6 +29,7 @@ import { ReviewerFormDialogComponent } from './views/components/dialogs/reviewer
 import { DictionaryFormDialogComponent } from './views/components/dialogs/dictionary-form-dialog.component';
 import { ThesisFormDialogComponent } from './views/components/dialogs/thesis-form-dialog.component';
 import { FacultyFormDialogComponent } from './views/components/dialogs/faculty-form-dialog.component';
+import { GenericYesnoDialogComponent } from './views/components/dialogs/generic-yesno-dialog.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { FacultyFormDialogComponent } from './views/components/dialogs/faculty-f
     ReviewerFormDialogComponent,
     DictionaryFormDialogComponent,
     ThesisFormDialogComponent,
-    FacultyFormDialogComponent
+    FacultyFormDialogComponent,
+    GenericYesnoDialogComponent
   ],
   imports: [
     BrowserModule,
