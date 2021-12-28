@@ -52,7 +52,7 @@ export class ThesisService {
       next: (response: any) => {
         let blob = new Blob([response], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
         let url = window.URL.createObjectURL(blob);
-        window.open(url, "_blank", "noreferrer");
+        window.location.assign(url);
       }
     })
   }
