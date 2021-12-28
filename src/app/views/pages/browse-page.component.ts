@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-browse-page',
@@ -24,7 +24,7 @@ import { Component, OnInit } from '@angular/core';
         <app-thesis-table-browse [viewUpdater]="thesisUpdater"></app-thesis-table-browse>
       </div>
       <div class="panel">
-        <app-reviewers-toolbar (dataUpdated)="reviewerUpdater = !reviewerUpdater"></app-reviewers-toolbar>
+        <app-reviewers-toolbar (dataUpdated)="reviewerUpdater = !reviewerUpdater" (thesesUpdated)="thesisUpdater = !thesisUpdater"></app-reviewers-toolbar>
         <app-reviewer-table-browse [viewUpdater]="reviewerUpdater"></app-reviewer-table-browse>
       </div>
     </div>

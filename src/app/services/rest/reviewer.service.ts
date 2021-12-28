@@ -40,4 +40,10 @@ export class ReviewerService {
     
     return this.http.delete<void>(this.getApiEndpointUrl(), {params: params});
   }
+
+  public importExcel(file: File): Observable<void> {
+    const formData: FormData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post<void>(this.getApiEndpointUrl()+"/import", formData);
+  }
 }

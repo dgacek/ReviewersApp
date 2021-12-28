@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -24,9 +24,10 @@ import { ReviewerFormDialogComponent } from './dialogs/reviewer-form-dialog.comp
       <button mat-icon-button matTooltip="Usuń recenzenta" (click)="openDeleteDialog()" [disabled]="(selectedId$ | async) === 0">
         <mat-icon>delete</mat-icon>
       </button>
-      <button mat-icon-button matTooltip="Import z pliku .xlsx">
+      <button mat-icon-button matTooltip="Import z pliku .xlsx" (click)="openUploadDialog()">
         <mat-icon>file_upload</mat-icon>
       </button>
+      <input #fileUploadInput type="file" name="file" [hidden]="true" (change)="handleFileInput($event)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
     </div>
   `
 })
@@ -34,6 +35,8 @@ export class ReviewersToolbarComponent {
 
   selectedId$: Observable<number>;
   @Output() dataUpdated = new EventEmitter();
+  @Output() thesesUpdated = new EventEmitter();
+  @ViewChild('fileUploadInput') fileUploadInput!: ElementRef<HTMLInputElement>;
 
   constructor(private dialog: MatDialog,
     private store: Store<AppState>,
@@ -64,6 +67,30 @@ export class ReviewersToolbarComponent {
         }
       }
     })
+  }
+
+  openUploadDialog(): void {
+    this.dialog.open(GenericYesnoDialogComponent, { data: {title: "Import danych z pliku .xlsx", text: "Import nowych danych spowoduje bezpowrotne usunięcie wszystkich istniejących recenzentów (oraz przypisań) z systemu. Czy kontynuować?"} }).afterClosed().subscribe({
+      next: (result) => {
+        if (result === true) 
+          this.fileUploadInput.nativeElement.click()
+        }
+    })
+  }
+
+  handleFileInput(event: Event): void {
+    let fileList = (event.target as HTMLInputElement).files;
+    let file: File | null = null;
+    if (fileList !== null)
+      file = fileList.item(0);
+    if (file !== null) {
+      this.reviewerService.importExcel(file).subscribe({
+        next: () => {
+          this.dataUpdated.emit();
+          this.thesesUpdated.emit();
+        }
+      });
+    }
   }
 
   private handleDialogClose(response: any): void {

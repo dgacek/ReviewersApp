@@ -40,4 +40,20 @@ export class ThesisService {
     
     return this.http.delete<void>(this.getApiEndpointUrl(), {params: params});
   }
+
+  public importExcel(file: File): Observable<void> {
+    const formData: FormData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post<void>(this.getApiEndpointUrl()+"/import", formData);
+  }
+
+  public exportToExcel(): void {
+    this.http.get(this.getApiEndpointUrl()+"/export", { responseType: 'blob' as 'json' }).subscribe({
+      next: (response: any) => {
+        let blob = new Blob([response], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+        let url = window.URL.createObjectURL(blob);
+        window.open(url, "_blank", "noreferrer");
+      }
+    })
+  }
 }
