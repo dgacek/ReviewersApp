@@ -47,6 +47,7 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
       <div class="assign-button">
         <button mat-fab
           *ngIf="selectedThesis !== undefined && selectedThesis.reviewer === null" 
+          matTooltip="Przypisz"
           [disabled]="selectedThesis === undefined || (selectedReviewerId$ | async) === 0" 
           (click)="assignReviewer()"
           [color]="selectedThesis === undefined || selectedThesis.reviewer === null ? 'accent' : 'warn'">
@@ -55,6 +56,7 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
         </button>
         <button mat-fab
           *ngIf="selectedThesis !== undefined && selectedThesis.reviewer !== null" 
+          matTooltip="Usuń przypisanie"
           [disabled]="selectedThesis === undefined || (selectedReviewerId$ | async) === 0" 
           (click)="unassignReviewer()"
           [color]="selectedThesis === undefined || selectedThesis.reviewer === null ? 'accent' : 'warn'">

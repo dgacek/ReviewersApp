@@ -15,17 +15,17 @@ import { ReviewerFormDialogComponent } from './dialogs/reviewer-form-dialog.comp
   `],
   template: `
     <div>
-      <button mat-icon-button (click)="openFormDialog({ edit: false })">
+      <button mat-icon-button matTooltip="Dodaj recenzenta" (click)="openFormDialog({ edit: false })">
         <mat-icon>add</mat-icon>
       </button>
-      <button mat-icon-button (click)="openFormDialog({ edit: true })" [disabled]="(selectedId$ | async) === 0">
+      <button mat-icon-button matTooltip="Edytuj recenzenta" (click)="openFormDialog({ edit: true })" [disabled]="(selectedId$ | async) === 0">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button (click)="openDeleteDialog()" [disabled]="(selectedId$ | async) === 0">
+      <button mat-icon-button matTooltip="Usuń recenzenta" (click)="openDeleteDialog()" [disabled]="(selectedId$ | async) === 0">
         <mat-icon>delete</mat-icon>
       </button>
-      <button mat-icon-button>
-        <mat-icon>upload_file</mat-icon>
+      <button mat-icon-button matTooltip="Import z pliku .xlsx">
+        <mat-icon>file_upload</mat-icon>
       </button>
     </div>
   `

@@ -15,17 +15,20 @@ import { ThesisFormDialogComponent } from './dialogs/thesis-form-dialog.componen
   `],
   template: `
     <div>
-      <button mat-icon-button (click)="openFormDialog({edit: false})">
+      <button mat-icon-button matTooltip="Dodaj pracę" (click)="openFormDialog({edit: false})">
         <mat-icon>add</mat-icon>
       </button>
-      <button mat-icon-button (click)="openFormDialog({edit: true})" [disabled]="(selectedId$ | async) === 0">
+      <button mat-icon-button matTooltip="Edytuj pracę" (click)="openFormDialog({edit: true})" [disabled]="(selectedId$ | async) === 0">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button (click)="openDeleteDialog()" [disabled]="(selectedId$ | async) === 0">
+      <button mat-icon-button matTooltip="Usuń pracę" (click)="openDeleteDialog()" [disabled]="(selectedId$ | async) === 0">
         <mat-icon>delete</mat-icon>
       </button>
-      <button mat-icon-button>
-        <mat-icon>upload_file</mat-icon>
+      <button mat-icon-button matTooltip="Import z pliku .xlsx">
+        <mat-icon>file_upload</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Eksport przypisanych prac do pliku .xlsx">
+        <mat-icon>file_download</mat-icon>
       </button>
     </div>
   `

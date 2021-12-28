@@ -24,7 +24,7 @@ import { SettingsDialogComponent } from './dialogs/settings-dialog.component';
       <div class="title">ReviewersApp</div>
       <div class="spacer"></div>
       <div class="action-buttons">
-        <button mat-icon-button (click)="openSettingsDialog()">
+        <button mat-icon-button matTooltip="Ustawienia" (click)="openSettingsDialog()">
           <mat-icon>settings</mat-icon>
         </button>
         <div *ngIf="isAuthenticated(); else elseBlock">

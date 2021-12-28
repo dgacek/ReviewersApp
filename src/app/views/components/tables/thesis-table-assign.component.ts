@@ -69,7 +69,7 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
   template: `
     <div class="details-root">
       <div class="button-nav">
-        <button mat-mini-fab color="primary" [disabled]="(selectedIndex === undefined) || (selectedIndex <= 0)" (click)="setSelectedItem(selectedIndex! - 1)">
+        <button mat-mini-fab color="primary" matTooltip="Poprzednia praca" [disabled]="(selectedIndex === undefined) || (selectedIndex <= 0)" (click)="setSelectedItem(selectedIndex! - 1)">
           <mat-icon>arrow_upward</mat-icon>
         </button>
       </div>
@@ -81,7 +81,7 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
           <p>{{selectedItem ? selectedItem.authorAlbumNumber : "\n"}}</p>
       </div>
       <div class="button-nav">
-        <button mat-mini-fab color="primary" [disabled]="(selectedIndex === undefined) || (selectedIndex! + 1 >= dataSource.data.length)" (click)="setSelectedItem(selectedIndex! + 1)">
+        <button mat-mini-fab color="primary" matTooltip="Następna praca" [disabled]="(selectedIndex === undefined) || (selectedIndex! + 1 >= dataSource.data.length)" (click)="setSelectedItem(selectedIndex! + 1)">
           <mat-icon>arrow_downward</mat-icon>
         </button>
       </div>
