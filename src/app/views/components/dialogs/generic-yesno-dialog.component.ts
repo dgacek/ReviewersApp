@@ -25,10 +25,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
       {{data.text}}
     </div>
     <div mat-dialog-actions style="float: right;">
-      <button mat-button (click)="closeDialog(true)">
+      <button mat-stroked-button (click)="closeDialog(true)">
         Tak
       </button>
-      <button mat-button (click)="closeDialog(false)">
+      <button mat-stroked-button (click)="closeDialog(false)">
         Nie
       </button>
     </div>

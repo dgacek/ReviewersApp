@@ -27,4 +27,9 @@ export class AuthService {
   public isAuthenticated(): boolean {
     return !this.jwtHelper.isTokenExpired(this.getAuthToken());
   }
+
+  public getCurrentUserId(): number {
+    let tokenPayload = this.jwtHelper.decodeToken(this.getAuthToken());
+    return tokenPayload.sub.split(",")[0];
+  }
 }

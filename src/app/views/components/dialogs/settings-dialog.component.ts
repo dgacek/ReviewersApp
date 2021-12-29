@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ApiurlService } from 'src/app/services/apiurl.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { ChangePasswordDialogComponent } from './change-password-dialog.component';
 
 @Component({
   selector: 'app-settings-dialog',
@@ -29,17 +31,23 @@ import { ApiurlService } from 'src/app/services/apiurl.service';
     </div>
     <div mat-dialog-content>
       <h4>Adres API</h4>
-      <mat-radio-group [formControl]="apiTypeFormControl" class="radio-group-vertical">
-        <mat-radio-button value="local">API lokalne/wbudowane (http://localhost:8080)</mat-radio-button>
-        <mat-radio-button value="remote">
-          <mat-form-field>
-            <input matInput placeholder="URL" [formControl]="apiUrlFormControl" />
-          </mat-form-field>
-        </mat-radio-button>
-      </mat-radio-group>
+      <p>
+        <mat-radio-group [formControl]="apiTypeFormControl" class="radio-group-vertical">
+          <mat-radio-button value="local">API lokalne/wbudowane (http://localhost:8080)</mat-radio-button>
+          <mat-radio-button value="remote">
+            <mat-form-field>
+              <input matInput placeholder="URL" [formControl]="apiUrlFormControl" />
+            </mat-form-field>
+          </mat-radio-button>
+        </mat-radio-group>
+      </p>
+      <h4>Ustawienia użytkownika</h4>
+      <p>
+        <button mat-stroked-button (click)="openChangePasswordDialog()">Zmień hasło</button>
+      </p>
     </div>
     <div mat-dialog-actions class="action-buttons-right">
-      <button mat-button (click)="applySettings()">Zatwierdź</button>
+      <button mat-stroked-button (click)="applySettings()">Zatwierdź</button>
     </div>
   `
 })
@@ -48,6 +56,7 @@ export class SettingsDialogComponent implements OnInit {
   apiUrlFormControl = new FormControl();
 
   constructor(private apiurlService: ApiurlService,
+    private dialog: MatDialog,
     private dialogRef: MatDialogRef<SettingsDialogComponent>) { }
 
   ngOnInit(): void {
@@ -66,6 +75,10 @@ export class SettingsDialogComponent implements OnInit {
 
   public closeDialog(): void {
     this.dialogRef.close();
+  }
+
+  public openChangePasswordDialog(): void {
+    this.dialog.open(ChangePasswordDialogComponent);
   }
 
 }

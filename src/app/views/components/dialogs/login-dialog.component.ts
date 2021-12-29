@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { LoginService } from 'src/app/services/rest/login.service';
@@ -54,16 +55,18 @@ export class LoginDialogComponent {
     this._password = value;
   }
 
-  constructor(private loginService: LoginService, private auth: AuthService, private router: Router) { }
+  constructor(private loginService: LoginService, private auth: AuthService, private router: Router, private snackbar: MatSnackBar) { }
 
   public processForm(): void {
     if (this._username && this._password) {
-      this.loginService.login({username: this._username, password: this._password}).subscribe(
-        (response: AuthResponseDTO) => {
+      this.loginService.login({username: this._username, password: this._password}).subscribe({
+        next: (response: AuthResponseDTO) => {
           this.auth.setAuthToken(response.token);
+          this.snackbar.dismiss();
           this.router.navigate(["/assign"]);
-        }
-      )
+        },
+        error: () => this.snackbar.open("Błąd logowania", "OK", { duration: 3000 })
+      })
     }
   }
 

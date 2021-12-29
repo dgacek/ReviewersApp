@@ -30,6 +30,7 @@ import { DictionaryFormDialogComponent } from './views/components/dialogs/dictio
 import { ThesisFormDialogComponent } from './views/components/dialogs/thesis-form-dialog.component';
 import { FacultyFormDialogComponent } from './views/components/dialogs/faculty-form-dialog.component';
 import { GenericYesnoDialogComponent } from './views/components/dialogs/generic-yesno-dialog.component';
+import { ChangePasswordDialogComponent } from './views/components/dialogs/change-password-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { GenericYesnoDialogComponent } from './views/components/dialogs/generic-
     DictionaryFormDialogComponent,
     ThesisFormDialogComponent,
     FacultyFormDialogComponent,
-    GenericYesnoDialogComponent
+    GenericYesnoDialogComponent,
+    ChangePasswordDialogComponent
   ],
   imports: [
     BrowserModule,
