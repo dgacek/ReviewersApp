@@ -41,10 +41,12 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
           </mat-radio-button>
         </mat-radio-group>
       </p>
-      <h4>Ustawienia użytkownika</h4>
-      <p>
-        <button mat-stroked-button (click)="openChangePasswordDialog()">Zmień hasło</button>
-      </p>
+      <div *ngIf="authService.isAuthenticated()">
+        <h4>Ustawienia użytkownika</h4>
+        <p>
+          <button mat-stroked-button (click)="openChangePasswordDialog()">Zmień hasło</button>
+        </p>
+      </div>
     </div>
     <div mat-dialog-actions class="action-buttons-right">
       <button mat-stroked-button (click)="applySettings()">Zatwierdź</button>
@@ -56,6 +58,7 @@ export class SettingsDialogComponent implements OnInit {
   apiUrlFormControl = new FormControl();
 
   constructor(private apiurlService: ApiurlService,
+    public authService: AuthService,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<SettingsDialogComponent>) { }
 
