@@ -37,6 +37,14 @@ import { ThesisService } from 'src/app/services/rest/thesis.service';
         <mat-label>Numer albumu autora</mat-label>
         <input matInput [formControl]="authorAlbumNumberFormControl">
       </mat-form-field>
+      <mat-form-field>
+        <mat-label>Słowa kluczowe</mat-label>
+        <input matInput [formControl]="keywordsFormControl">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Streszczenie</mat-label>
+        <textarea matInput [formControl]="summaryFormControl"></textarea>
+      </mat-form-field>
     </div>
     <div mat-dialog-actions style="float: right;">
       <button mat-stroked-button (click)="processForm()">Zatwierdź</button>
@@ -49,6 +57,8 @@ export class ThesisFormDialogComponent implements OnInit {
   selectedThesisId$: Observable<number>;
   topicFormControl: FormControl = new FormControl('', [Validators.required]);
   authorAlbumNumberFormControl: FormControl = new FormControl('', [Validators.required]);
+  keywordsFormControl: FormControl = new FormControl('');
+  summaryFormControl: FormControl = new FormControl('');
 
   constructor(private dialogRef: MatDialogRef<ThesisFormDialogComponent>,
     private thesisService: ThesisService,
@@ -65,6 +75,8 @@ export class ThesisFormDialogComponent implements OnInit {
           next: (response) => {
             this.topicFormControl.setValue(response[0].topic);
             this.authorAlbumNumberFormControl.setValue(response[0].authorAlbumNumber);
+            this.keywordsFormControl.setValue(response[0].keywords);
+            this.summaryFormControl.setValue(response[0].summary);
           }
         }
       ))
@@ -80,7 +92,15 @@ export class ThesisFormDialogComponent implements OnInit {
       if (this.prefs?.edit === true) {
         this.selectedThesisId$.pipe(take(1)).subscribe(
           (selectedThesisId) => {
-            this.thesisService.update({ id: selectedThesisId, topic: this.topicFormControl.value, authorAlbumNumber: this.authorAlbumNumberFormControl.value, reviewerId: null }).subscribe(
+            this.thesisService.update(
+              { 
+                id: selectedThesisId, 
+                topic: this.topicFormControl.value, 
+                authorAlbumNumber: this.authorAlbumNumberFormControl.value, 
+                keywords: this.keywordsFormControl.value, 
+                summary: this.summaryFormControl.value, 
+                reviewerId: null 
+              }).subscribe(
               {
                 next: () => this.closeDialog(true),
                 error: () => this.snackbar.open("Nieoczekiwany błąd", "OK", { duration: 3000 })
@@ -89,7 +109,13 @@ export class ThesisFormDialogComponent implements OnInit {
           }
         )
       } else {
-        this.thesisService.add({ topic: this.topicFormControl.value, authorAlbumNumber: this.authorAlbumNumberFormControl.value }).subscribe(
+        this.thesisService.add(
+          { 
+            topic: this.topicFormControl.value, 
+            authorAlbumNumber: this.authorAlbumNumberFormControl.value,
+            keywords: this.keywordsFormControl.value, 
+            summary: this.summaryFormControl.value,
+          }).subscribe(
           {
             next: () => this.closeDialog(true),
             error: () => this.snackbar.open("Nieoczekiwany błąd", "OK", { duration: 3000 })

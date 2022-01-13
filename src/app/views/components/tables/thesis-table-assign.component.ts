@@ -50,7 +50,7 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
       padding: 30px;
       display: flex;
       flex-direction: column;
-      height: 300px;
+      height: 660px;
     }
 
     .table-root {
@@ -76,6 +76,14 @@ import { ThesisGetDTO } from 'src/app/shared/types/dto/thesis/ThesisGetDTO';
       <div>
           <h3>Temat:</h3>
           <p>{{selectedItem ? selectedItem.topic : "\n"}}</p>
+          <br>
+          <h4>Słowa kluczowe:</h4>
+          <p>{{selectedItem ? selectedItem.keywords : "\n"}}</p>
+          <br>
+          <h4>Streszczenie:</h4>
+          <div style="height:25%;overflow:auto">
+            <p>{{selectedItem ? selectedItem.summary : "\n"}}</p>
+          </div>
           <br>
           <h4>Numer albumu autora:</h4>
           <p>{{selectedItem ? selectedItem.authorAlbumNumber : "\n"}}</p>
