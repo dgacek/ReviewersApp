@@ -41,7 +41,7 @@ import { GenericYesnoDialogComponent } from './generic-yesno-dialog.component';
     <div mat-dialog-content class="dialog-content">
       <div class="flex-row">
         <mat-form-field appearance="fill" style="flex: 1;">
-          <mat-label>Title</mat-label>
+          <mat-label>Tytuł</mat-label>
           <mat-select [formControl]="titleFormControl">
             <mat-option *ngFor="let title of titles" [value]="title.id">
               {{title.name}}
